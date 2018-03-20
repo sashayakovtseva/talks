@@ -16,17 +16,18 @@ import (
 type (
 	users struct{}
 
+	// User represents user entity
 	User struct {
-		ID        int64
-		Name      string
-		Email     string
-		IsManager bool
+		ID    int64
+		Name  string
+		Email string
 	}
 )
 
 var (
 	db *sql.DB
 
+	// Users offer access to users table
 	Users users
 )
 
@@ -43,13 +44,26 @@ func init() {
 	}
 }
 
+// Fetch fetches user from db
 func (users) Fetch(ctx context.Context, id int64) (User, error) {
 	row := db.QueryRowContext(ctx, `
-SELECT id, name, email, is_manager
+SELECT id, name, email
   FROM users
  WHERE id = ?
 `, id)
 	var u User
-	err := row.Scan(&u.ID, &u.Name, &u.Email, &u.IsManager)
+	err := row.Scan(&u.ID, &u.Name, &u.Email)
 	return u, err
+}
+
+// IsManager fetches is_manager flag for user
+func (users) IsManager(ctx context.Context, id int64) (bool, error) {
+	row := db.QueryRowContext(ctx, `
+SELECT is_manager
+  FROM users
+ WHERE id = ?
+`, id)
+	var isManager bool
+	err := row.Scan(&isManager)
+	return isManager, err
 }

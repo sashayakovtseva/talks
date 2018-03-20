@@ -1,34 +1,38 @@
-package controller
+package v1
 
 import (
 	"context"
 	"fmt"
 
-	"github.com/sashayakovtseva/talks/testing/structs/database"
+	"github.com/sashayakovtseva/talks/testing/database"
 )
 
 type (
-	UsersProvider interface {
+	usersProvider interface {
 		Fetch(ctx context.Context, id int64) (database.User, error)
+		IsManager(ctx context.Context, id int64) (bool, error)
 	}
 
 	userController struct {
-		usersProvider UsersProvider
+		usersProvider usersProvider
 	}
 )
 
 var (
+	// Users provide access to users business logic
 	Users = userController{
 		usersProvider: database.Users,
 	}
 )
 
+// FetchUser checks that viewer has manager permissions and if he has
+// fetches the user by id
 func (u userController) FetchUser(ctx context.Context, managerID, userID int64) (*database.User, error) {
-	manager, err := u.usersProvider.Fetch(ctx, managerID)
+	isManager, err := u.usersProvider.IsManager(ctx, managerID)
 	if err != nil {
 		return nil, fmt.Errorf("could not fetch manager: %v", err)
 	}
-	if !manager.IsManager {
+	if !isManager {
 		return nil, fmt.Errorf("view user not allowed")
 	}
 	user, err := u.usersProvider.Fetch(ctx, userID)

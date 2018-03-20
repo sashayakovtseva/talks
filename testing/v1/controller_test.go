@@ -1,12 +1,11 @@
-package controller
+package v1
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
-	"fmt"
-
-	"github.com/sashayakovtseva/talks/testing/structs/database"
+	"github.com/sashayakovtseva/talks/testing/database"
 	"github.com/stretchr/testify/require"
 )
 
@@ -20,18 +19,30 @@ func (errorUserProvider) Fetch(ctx context.Context, id int64) (database.User, er
 	return database.User{}, fmt.Errorf("always error")
 }
 
+func (errorUserProvider) IsManager(ctx context.Context, id int64) (bool, error) {
+	return false, fmt.Errorf("always error")
+}
+
 func (notManagerUserProvider) Fetch(ctx context.Context, id int64) (database.User, error) {
-	return database.User{ID: id, IsManager: false}, nil
+	return database.User{ID: id}, nil
+}
+
+func (notManagerUserProvider) IsManager(ctx context.Context, id int64) (bool, error) {
+	return false, nil
 }
 
 func (okUserProvider) Fetch(ctx context.Context, id int64) (database.User, error) {
-	return database.User{ID: id, IsManager: true}, nil
+	return database.User{ID: id}, nil
+}
+
+func (okUserProvider) IsManager(ctx context.Context, id int64) (bool, error) {
+	return true, nil
 }
 
 func TestFetchUser(t *testing.T) {
 	tt := []struct {
 		name          string
-		usersProvider UsersProvider
+		usersProvider usersProvider
 		expectResult  *database.User
 		expectError   error
 	}{
@@ -50,7 +61,7 @@ func TestFetchUser(t *testing.T) {
 		{
 			name:          "all ok",
 			usersProvider: okUserProvider{},
-			expectResult:  &database.User{ID: 0, IsManager: true},
+			expectResult:  &database.User{ID: 0},
 			expectError:   nil,
 		},
 	}

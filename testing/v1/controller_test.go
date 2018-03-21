@@ -49,13 +49,11 @@ func TestFetchUser(t *testing.T) {
 		{
 			name:          "fetch user error",
 			usersProvider: errorUserProvider{},
-			expectResult:  nil,
 			expectError:   fmt.Errorf("could not fetch manager: always error"),
 		},
 		{
 			name:          "not manager",
 			usersProvider: notManagerUserProvider{},
-			expectResult:  nil,
 			expectError:   fmt.Errorf("view user not allowed"),
 		},
 		{

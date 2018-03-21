@@ -58,20 +58,17 @@ func TestFetchUser(t *testing.T) {
 		{
 			name:          "fetch manager error",
 			isManagerFunc: errorIsManager,
-			expectResult:  nil,
 			expectError:   fmt.Errorf("could not fetch manager: always error"),
 		},
 		{
 			name:          "not manager",
 			isManagerFunc: isNotManager,
-			expectResult:  nil,
 			expectError:   fmt.Errorf("view user not allowed"),
 		},
 		{
 			name:          "fetch user error",
 			isManagerFunc: isManager,
 			fetchFunc:     errorFetch,
-			expectResult:  nil,
 			expectError:   fmt.Errorf("could not fetch user: always error"),
 		},
 		{

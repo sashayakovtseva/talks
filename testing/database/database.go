@@ -3,13 +3,11 @@ package database
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"log"
-
-	// driver
 	"os"
 
-	"fmt"
-
+	// driver
 	_ "github.com/go-sql-driver/mysql"
 )
 

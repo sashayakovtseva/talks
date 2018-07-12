@@ -38,8 +38,8 @@ func TestFetchUser(t *testing.T) {
 	userProviderMock.On("IsManager", ctx, int64(0)).Return(false, errMock)
 	userProviderMock.On("IsManager", ctx, int64(1)).Return(false, nil)
 	userProviderMock.On("IsManager", ctx, mock.Anything).Return(true, nil)
-	userProviderMock.On("ByID", ctx, int64(0)).Return((*database.User)(nil), errMock)
-	userProviderMock.On("ByID", ctx, int64(1)).Return(&database.User{ID: 1, Name: "sasha"}, errMock)
+	userProviderMock.On("Fetch", ctx, int64(0)).Return(database.User{}, errMock)
+	userProviderMock.On("Fetch", ctx, int64(1)).Return(database.User{ID: 1, Name: "sasha"}, nil)
 
 	tt := []struct {
 		name         string

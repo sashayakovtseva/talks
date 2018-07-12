@@ -1,0 +1,8 @@
+$ go test -run=^$ -v -bench=. -benchmem -memprofile mem.out -cpuprofile cpu.out -o bench.test
+goos: darwin
+goarch: amd64
+pkg: github.com/sashayakovtseva/dfs-relax
+BenchmarkWithoutCycles-4                  100000             16265 ns/op            1372 B/op         16 allocs/op
+BenchmarkWithoutCyclesNoCopy-4            500000              3055 ns/op             351 B/op          6 allocs/op
+PASS
+ok      github.com/sashayakovtseva/dfs-relax    3.511s

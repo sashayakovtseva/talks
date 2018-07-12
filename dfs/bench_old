@@ -1,0 +1,7 @@
+$ go test -run=^$ -v -bench=. -benchmem -memprofile mem.out -cpuprofile cpu.out -o bench.test
+goos: darwin
+goarch: amd64
+pkg: gitlab.itechart-group.com/Hackaton-2018/Rob-Pike/controller
+BenchmarkRemoveCyclesAndMutual-4          100000             20124 ns/op           28864 B/op         72 allocs/op
+PASS
+ok      gitlab.itechart-group.com/Hackaton-2018/Rob-Pike/controller     2.393s

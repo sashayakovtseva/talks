@@ -1,0 +1,97 @@
+Depth-first search in practice
+Finding cycles in debt's graph
+12 Jul 2018
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Task
+
+Given a directed graph of debts modify it so that there are no cyclic debts left.
+
+Input: arbitary directed graph.
+Output: directed tree (forest).
+
+Mutual debts implied.
+
+* Depth-first search
+
+- finding simple path
+- finding cycles
+- finding connected components 
+- topology sorting
+- finding bipartite graphs
+
+* Algorithm
+
+Given a directed graph G = (V, A).
+
+.code pseudo
+
+Note: this is a basic pseudocode of the dfs algorithm without arrow classification. It is provided here for revision purpose only.
+
+* Arrow classification
+
+.image Tree_edges.svg 500 _
+
+* Complexity
+
+If graph is stored using adjacency lists:
+
+_O(|V|+|A|)_
+
+For each vertex we traverse its arrows.
+
+_∑|arrows|=|A|_
+
+* Solution
+
+Given a directed graph of debts modify it so that there are no cyclic debts left.
+
+- find cycles in the given graph with dfs
+- relax arrows in the cycle found
+- resume dfs so that 'cycled' vertices are treated as *NOT* visited
+
+* Solution complexity
+
+Graph is stored using adjacency lists.
+
+For each vertex we traverse its arrows *POSSIBLY* not once.
+
+Worst case: 
+    - _Kn_ a.k.a complete directed graph
+    - after each relaxation only one arrow is removed.
+
+
+Input:  _|A|=|V|*(|V-1|)_
+
+Output: _|A|=|V|-1_
+
+Each vertex is visited (|V|-2)+1 times.
+
+Each arrow is visited twice?
+
+Complexity: 
+    _O(|V|*(|V|-1))+O(2|A|)?_
+
+* Comparison
+
+Before:
+
+.code bench_old
+
+: go tool pprof  bench.test  cpu.out
+
+* Comparison
+
+After:
+
+.code bench_new
+
+: go tool pprof  bench.test  cpu.out
+
+* Source code
+
+.link https://github.com/sashayakovtseva/dfs-relax Package with the algorithm.
+

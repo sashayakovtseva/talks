@@ -1,0 +1,16 @@
+visit[v] = false for all v∈V
+mark[v] = 0 for all v∈V
+lifo = <empty>
+ts = 0
+
+while exists v∈V: visit[v] == false
+    lifo.push(v)
+
+deep:
+    while !lifo.Empty()
+        u = lifo.pop()
+        visit[u] = true
+        mark[u] = ++ts
+        for all w∈V: uw∈A and visit[w] == false
+            lifo.push(w)
+            continue deep            

@@ -1,0 +1,57 @@
+Go channels in-depth 
+Understanding Go channels internals
+26 Jul 2018
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Agenda
+
+- Revision
+- Internal structure
+- Internal optimizations
+- Outro
+
+* What are channels?
+
+Channels are the main synchronization and communication primitive in Go, they need to be fast and scalable.
+
+.caption [[https://github.com/dvyukov][_Dmitry_ _Vyukov_]]
+
+
+Channels are a typed conduit through which you can send and receive values with the channel operator.
+
+.caption [[https://tour.golang.org/concurrency/2][_Tour_ _of_ _Go_]]
+
+* Synchronous channels
+
+.image ch1.png 400 500
+ 
+* Asynchronous channels
+
+.image ch2.png 
+
+* Internal structure
+
+.code snippets /type hchan/,/^}/
+
+* Invariants
+  
+At least one of c.sendq and c.recvq is empty,
+except for the case of an unbuffered channel with a single goroutine
+blocked on it for both sending and receiving using a select statement,
+in which case the length of c.sendq and c.recvq is limited only by the
+size of the select statement.
+
+For buffered channels, also:
+
+- c.qcount > 0 implies that c.recvq is empty.
+- c.qcount < c.dataqsiz implies that c.sendq is empty.
+
+* Links
+
+.link https://www.youtube.com/watch?v=KBZlN0izeiY GopherCon 2017: Kavya Joshi - Understanding Channels
+.link https://docs.google.com/document/d/1yIAYmbvL3JxOKOjuCyon7JhW4cSv1wy5hC0ApeGMV9s/pub Go channels on steroids 
+.link https://tour.golang.org/concurrency/2 A Tour of Go
+.link https://github.com/golang/go/blob/master/src/runtime/chan.go Internal implementation

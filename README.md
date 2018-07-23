@@ -1,1 +1,1 @@
-talks
+Repository with Go talks.

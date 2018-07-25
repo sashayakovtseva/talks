@@ -10,7 +10,7 @@ a.yakautsava@itechart-group.com
 
 - Revision
 - Internal structure
-- Internal optimizations
+- Channel operations
 - Outro
 
 * What are channels?
@@ -74,6 +74,48 @@ For buffered channels, also:
 
 - _qcount_ > 0 implies that _recvq_ is empty
 - _qcount_ < _dataqsiz_ implies that _sendq_ is empty
+
+* Making channels
+
+.code snippets /func makechan/,/^}/
+
+* Send function 
+
+.code snippets /func chansend/,/{$/
+
+Send function receives four arguments:
+
+- the channel itself
+- a pointer to the sent data
+- flag for non-blocking call
+- caller's instruction pointer (used for race detection)
+
+* Send to nil channels
+
+.code snippets /NIL/,/NIL/
+
+When sending to a nil channel, goroutine blocks forever.
+
+* Lock-free failed non-blocking sending
+
+.code snippets /FAST/,/FAST/
+
+- observe whether channel is closed
+- observe whether channel is not ready for sending
+
+Each of these observations is a single word-sized read (aka atomic).
+
+It is okay if the reads are reordered here.
+
+* Lock-free failed non-blocking sending
+
+What if channel closes in *between* the observations?
+
+Because a closed channel cannot transition from 'ready for sending' to
+'not ready for sending', even if the channel is closed between the two observations,
+they imply a moment between the two when the channel was both not yet closed
+and not ready for sending. We behave as if we observed the channel at that moment,
+and report that the send cannot proceed.
 
 * Links
 

@@ -73,8 +73,6 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 		panic(plainError("send on closed channel"))
 	}
 	if sg := c.recvq.dequeue(); sg != nil {
-		// Found a waiting receiver. We pass the value we want to send
-		// directly to the receiver, bypassing the channel buffer (if any).
 		send(c, sg, ep, func() { unlock(&c.lock) }, 3)
 		return true
 	}
@@ -84,7 +82,6 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 	lock(&c.lock)
     ...
 	if c.qcount < c.dataqsiz {
-		// Space is available in the channel buffer. Enqueue the element to send.
 		qp := chanbuf(c, c.sendx)          
 		typedmemmove(c.elemtype, qp, ep)   
 		c.sendx++
@@ -126,3 +123,141 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 }
 // SEND_FINISHED OMIT
 
+func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool) {
+// RECV_NIL OMIT
+	if c == nil {
+		if !block {
+			return
+		}
+		gopark(nil, nil, "chan receive (nil chan)", traceEvGoStop, 2)
+		throw("unreachable")
+	}
+// RECV_NIL OMIT
+
+// RECV_FAST OMIT
+    if !block && (c.dataqsiz == 0 && c.sendq.first == nil ||
+		c.dataqsiz > 0 && atomic.Loaduint(&c.qcount) == 0) &&
+		atomic.Load(&c.closed) == 0 {
+		return
+	}
+// RECV_FAST OMIT
+
+// RECV_LOCK_DIRECT OMIT
+	lock(&c.lock)
+	if c.closed != 0 && c.qcount == 0 { // tha channel is drained & closed
+		unlock(&c.lock)
+		if ep != nil {
+			typedmemclr(c.elemtype, ep) // copy zero value if necessary
+		}
+		return true, false
+	}
+	if sg := c.sendq.dequeue(); sg != nil {
+		recv(c, sg, ep, func() { unlock(&c.lock) }, 3)
+		return true, true
+	}
+// RECV_LOCK_DIRECT OMIT
+
+
+// RECV_BUF_DIRECT OMIT
+	lock(&c.lock)
+    ...
+	if c.qcount > 0 {
+		qp := chanbuf(c, c.recvx) 
+		if ep != nil {
+			typedmemmove(c.elemtype, ep, qp)
+		}
+		typedmemclr(c.elemtype, qp)
+		c.recvx++
+		if c.recvx == c.dataqsiz {
+			c.recvx = 0
+		}
+		c.qcount--
+		unlock(&c.lock)
+		return true, true
+	}
+// RECV_BUF_DIRECT OMIT
+
+// RECV_BLOCK OMIT
+	lock(&c.lock)
+    ...
+	if !block {
+		unlock(&c.lock)
+		return false, false
+	}
+	gp := getg()
+	mysg := acquireSudog()
+	mysg.elem = ep
+	...
+	c.recvq.enqueue(mysg)
+	goparkunlock(&c.lock, "chan receive", traceEvGoBlockRecv, 3)
+// RECV_BLOCK OMIT
+
+// RECV_FINISHED OMIT
+	...
+	closed := gp.param == nil
+	gp.param = nil
+	mysg.c = nil
+	releaseSudog(mysg)
+	return true, !closed
+}
+// RECV_FINISHED OMIT
+
+
+func closechan(c *hchan) {
+	if c == nil {
+		panic(plainError("close of nil channel"))
+	}
+	lock(&c.lock)
+	if c.closed != 0 {
+		unlock(&c.lock)
+		panic(plainError("close of closed channel"))
+	}
+	c.closed = 1
+
+// CLOSE_READERS OMIT
+	lock(&c.lock)
+    ...
+	var glist *g
+	for {
+		sg := c.recvq.dequeue()
+		if sg == nil {
+			break
+		}
+		if sg.elem != nil {
+			typedmemclr(c.elemtype, sg.elem)
+			sg.elem = nil
+		}
+		gp := sg.g
+		gp.param = nil
+		gp.schedlink.set(glist)
+		glist = gp
+	}
+// CLOSE_READERS OMIT
+
+// CLOSE_WRITERS OMIT
+	lock(&c.lock)
+    ...
+	for {
+		sg := c.sendq.dequeue()
+		if sg == nil {
+			break
+		}
+		sg.elem = nil
+		gp := sg.g
+		gp.param = nil
+		gp.schedlink.set(glist)
+		glist = gp
+	}
+// CLOSE_WRITERS OMIT
+
+// CLOSE_RESUME OMIT
+	unlock(&c.lock)
+	// Ready all Gs now that we've dropped the channel lock.
+	for glist != nil {
+		gp := glist
+		glist = glist.schedlink.ptr()
+		gp.schedlink = 0
+		goready(gp, 3)
+	}
+}
+// CLOSE_RESUME OMIT

@@ -11,7 +11,7 @@ a.yakautsava@itechart-group.com
 - Revision
 - Internal structure
 - Channel operations
-- Outro
+- Conclusion
 
 * What are channels?
 
@@ -90,6 +90,8 @@ Send function receives four arguments:
 - flag for non-blocking call
 - caller's instruction pointer (used for race detection)
 
+It returns *true* if the sent was successful.
+
 * Send to nil channels
 
 .code snippets /SEND_NIL/,/SEND_NIL/
@@ -123,7 +125,7 @@ and report that the send cannot proceed.
 
 Sending to a closed channel leads to panic.
 
-No extra copying is made when a waiting receiver is found. Correct both for sync and async channels.
+When waiting receiver is found the value is passed directly to the receiver, bypassing the channel buffer (if any).
 
 * Sending proceeded
 
@@ -148,7 +150,162 @@ Goroutine wakes up after:
 - the sent value is consumed by a receiver
 - the channel was closed during the sleep time
 
-Sender checks system structs for corruption.
+* Receive function
+
+.code snippets /func chanrecv/,/{$/
+
+Receive function takes three arguments:
+
+- the channel itself
+- a pointer where the received data should be stored (nil to ignore the data)
+- flag for non-blocking call
+
+The return values are:
+
+- flag for the successful receive operation
+- flag for the actual data received
+
+* Receive from nil channels
+
+.code snippets /RECV_NIL/,/RECV_NIL/
+
+When receiving from a nil channel, goroutine blocks forever.
+
+* Lock-free failed non-blocking receiving
+
+.code snippets /RECV_FAST/,/RECV_FAST/
+
+- observe whether channel is not ready for receiving
+- observe whether channel is closed
+
+Each of these observations is a single word-sized read (aka atomic).
+
+The order of operation is important here!
+
+* Lock-free failed non-blocking receiving
+	
+Because a channel cannot be reopened, the later observation of the channel
+being not closed implies that it was also not closed at the moment of the
+first observation. We behave as if we observed the channel at that moment
+and report that the receive cannot proceed.
+
+* Receiving proceeded
+
+.code snippets /RECV_LOCK_DIRECT/,/RECV_LOCK_DIRECT/
+
+Receiving from a closed channel results in default value.
+
+If buffer is size 0, receive value directly from sender.
+
+Otherwise, receive from head of queue and add sender's value to the tail of the queue (both map to the same buffer slot because the queue is full).
+
+* Receiving proceeded
+
+.code snippets /RECV_BUF_DIRECT/,/RECV_BUF_DIRECT/
+
+When no sender is found use buffer to possess the value.
+
+* Receiving failed
+
+.code snippets /RECV_BLOCK/,/RECV_BLOCK/
+
+If the call was non-blocking simply return.
+
+Otherwise put oneself in the recvq.
+
+* Waking up!
+
+.code snippets /RECV_FINISHED/,/RECV_FINISHED/
+
+Goroutine wakes up after:
+
+- data was actually received
+- the channel was closed during the sleep time
+
+* Closing the channel
+
+.code snippets /func closechan/,/c.closed = 1/
+
+Closing nil or closed channel will panic!
+
+* Readers after channel closing 
+
+.code snippets /CLOSE_READERS/,/CLOSE_READERS/
+
+- 'send' default value to the blocked readers
+- link them for further resuming
+
+* Writers after channel closing 
+
+.code snippets /CLOSE_WRITERS/,/CLOSE_WRITERS/
+
+- set _param_ to nil so that senders will panic
+- link them for further resuming
+
+* Resuming blocked goroutines 
+
+.code snippets /CLOSE_RESUME/,/CLOSE_RESUME/
+
+Resume all blocked on channel goroutines *after* the lock is released.
+
+As a result:
+
+- receivers get default values
+- senders panic
+
+* Post-compile code
+
+    select {
+    case c <- v:
+    	... foo
+    default:
+    	... bar
+    }
+
+becomes
+
+	if chansend(c, v, false, getcallerpc()) {
+		... foo
+	} else {
+		... bar
+	}
+
+* Post-compile code
+
+    select {
+    case v = <-c:
+    	... foo
+    default:
+    	... bar
+    }
+
+becomes
+
+    selected, _ = chanrecv(c, &v, false)
+    if selected {
+         ... foo
+    } else {
+        ... bar
+    }
+
+* Post-compile code
+
+    select {
+    case v, ok = <-c:
+    	... foo
+    default:
+    	... bar
+    }
+
+becomes
+
+	selected, ok = chanrecv(c, &v, false)
+	if c != nil && selected {
+		... foo
+	} else {
+		... bar
+	}
+
 
 * Links
 

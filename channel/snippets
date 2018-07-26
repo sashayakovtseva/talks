@@ -44,7 +44,7 @@ func makechan(t *chantype, size int) *hchan {
 }
 
 func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
-// NIL OMIT
+// SEND_NIL OMIT
     if c == nil {
 		if !block {
 			return false
@@ -52,91 +52,77 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 		gopark(nil, nil, "chan send (nil chan)", traceEvGoStop, 2)
 		throw("unreachable")
 	}
-// NIL OMIT
+// SEND_NIL OMIT
 
-// FAST OMIT
+// SEND_FAST OMIT
 	if !block && c.closed == 0 && ((c.dataqsiz == 0 && c.recvq.first == nil) ||
 		(c.dataqsiz > 0 && c.qcount == c.dataqsiz)) {
 		return false
 	}
-// FAST OMIT
+// SEND_FAST OMIT
 
 	var t0 int64
 	if blockprofilerate > 0 {
 		t0 = cputicks()
 	}
 
+// SEND_LOCK_DIRECT OMIT
 	lock(&c.lock)
-
 	if c.closed != 0 {
 		unlock(&c.lock)
 		panic(plainError("send on closed channel"))
 	}
-
 	if sg := c.recvq.dequeue(); sg != nil {
 		// Found a waiting receiver. We pass the value we want to send
 		// directly to the receiver, bypassing the channel buffer (if any).
 		send(c, sg, ep, func() { unlock(&c.lock) }, 3)
 		return true
 	}
+// SEND_LOCK_DIRECT OMIT
 
+// SEND_LOCK_BUF OMIT
+	lock(&c.lock)
+    ...
 	if c.qcount < c.dataqsiz {
 		// Space is available in the channel buffer. Enqueue the element to send.
-		qp := chanbuf(c, c.sendx)
-		if raceenabled {
-			raceacquire(qp)
-			racerelease(qp)
-		}
-		typedmemmove(c.elemtype, qp, ep)
+		qp := chanbuf(c, c.sendx)          
+		typedmemmove(c.elemtype, qp, ep)   
 		c.sendx++
-		if c.sendx == c.dataqsiz {
+		if c.sendx == c.dataqsiz {         
 			c.sendx = 0
 		}
 		c.qcount++
 		unlock(&c.lock)
 		return true
 	}
+// SEND_LOCK_BUF OMIT
 
+// SEND_BLOCK OMIT
+	lock(&c.lock)
+    ...
 	if !block {
 		unlock(&c.lock)
 		return false
 	}
-
 	// Block on the channel. Some receiver will complete our operation for us.
 	gp := getg()
 	mysg := acquireSudog()
-	mysg.releasetime = 0
-	if t0 != 0 {
-		mysg.releasetime = -1
-	}
-	// No stack splits between assigning elem and enqueuing mysg
-	// on gp.waiting where copystack can find it.
-	mysg.elem = ep
-	mysg.waitlink = nil
-	mysg.g = gp
-	mysg.isSelect = false
-	mysg.c = c
-	gp.waiting = mysg
-	gp.param = nil
+	mysg.elem = ep      // this will be used by receiver later
+	...
 	c.sendq.enqueue(mysg)
 	goparkunlock(&c.lock, "chan send", traceEvGoBlockSend, 3)
+// SEND_BLOCK OMIT
 
-	// someone woke us up.
-	if mysg != gp.waiting {
-		throw("G waiting list is corrupted")
-	}
-	gp.waiting = nil
-	if gp.param == nil {
+// SEND_FINISHED OMIT
+	...
+	if gp.param == nil { // this param must be filled by a receiver
 		if c.closed == 0 {
 			throw("chansend: spurious wakeup")
 		}
 		panic(plainError("send on closed channel"))
 	}
-	gp.param = nil
-	if mysg.releasetime > 0 {
-		blockevent(mysg.releasetime-t0, 2)
-	}
-	mysg.c = nil
 	releaseSudog(mysg)
 	return true
 }
+// SEND_FINISHED OMIT
+

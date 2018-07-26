@@ -92,13 +92,13 @@ Send function receives four arguments:
 
 * Send to nil channels
 
-.code snippets /NIL/,/NIL/
+.code snippets /SEND_NIL/,/SEND_NIL/
 
 When sending to a nil channel, goroutine blocks forever.
 
 * Lock-free failed non-blocking sending
 
-.code snippets /FAST/,/FAST/
+.code snippets /SEND_FAST/,/SEND_FAST/
 
 - observe whether channel is closed
 - observe whether channel is not ready for sending
@@ -116,6 +116,39 @@ Because a closed channel cannot transition from 'ready for sending' to
 they imply a moment between the two when the channel was both not yet closed
 and not ready for sending. We behave as if we observed the channel at that moment,
 and report that the send cannot proceed.
+
+* Sending proceeded
+
+.code snippets /SEND_LOCK_DIRECT/,/SEND_LOCK_DIRECT/
+
+Sending to a closed channel leads to panic.
+
+No extra copying is made when a waiting receiver is found. Correct both for sync and async channels.
+
+* Sending proceeded
+
+.code snippets /SEND_LOCK_BUF/,/SEND_LOCK_BUF/
+
+When no receiver is found use buffer to store the value sent.
+
+* Sending failed
+
+.code snippets /SEND_BLOCK/,/SEND_BLOCK/
+
+If the call was non-blocking simply return.
+
+Otherwise put oneself in the sendq.
+
+* Waking up!
+
+.code snippets /SEND_FINISHED/,/SEND_FINISHED/
+
+Goroutine wakes up after:
+
+- the sent value is consumed by a receiver
+- the channel was closed during the sleep time
+
+Sender checks system structs for corruption.
 
 * Links
 

@@ -1,0 +1,148 @@
+Introduction to blockchain
+Part I
+16 Aug 2018
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Cryptocurrency TL;DR
+
+* Bitcoin
+
+The most popular cryptocurrency (Jan 2018).
+
+- created in 2009 by _Satoshi_ _Nakamoto_
+- 300.000 transactions/day
+- > $10 billion turnover/day
+- capitalisation ≈ $200 billion (amount * price)
+
+Shares around 50% of cryptocurrency market.
+
+Compare: Apple capitalisation is around $900 billion.
+
+* Fiat money
+
+At exchanges one can change cryptocurrency to fiat money or vice versa.
+
+Fiat money is a currency without intrinsic value that has been established as money, often by government regulation.
+
+Fiat money value is based on *agreement*.
+
+* Two ingredients
+
+- storage facility (e.g. gold, diamonds)
+- EPS (e.g. Visa, PayPal, Yandex.Money)
+
+Cryptocurrency is a mixture of them.
+
+* Altcoins
+
+- Ethereum
+- Ethereum Classic
+- Litecoin
+- Ripple
+- Dash
+- Monero
+- ZCash
+
+Last three provide elevated anonymity level.
+
+Some altcoins are carbon copy of Bitcoin.
+
+Total number: 2149 ([[https://www.investing.com/crypto/currencies][source]])
+
+* Properties
+
+- decentralized emission
+- planned emission
+- decentralized payments
+- (pseudo)anonymity
+
+* Real-world example
+
+Assume we have $10 that can be exchanged to 10 apples.
+
+Then central bank doubles money supply.
+
+Now you can have only 5 apples.
+
+Money purchasing power depends on supply which is controlled by central bank.
+
+* Blockchain TL;DR
+
+* What is blockchain?
+
+Blockchain is a fundamental technology for cryptocurrency.
+
+May be public or private.
+
+Nowadays public blockchains are used in cryptocurrency only.
+
+Cryptocurrency is simply blockchain's inner unit of account – valuable tokens.
+
+Solves third-party confidence problem.
+
+* Transactions
+
+- monetary – 99% of all (A -> send coins -> B)
+- non-monetary (permissions grant, etc.)
+
+* Double spending problem
+
+Was not solved until 2009.
+
+To prevent double spending a special registry of transactions must be held (ledger).
+
+New problem: trusted ledger keeper.
+
+Solution: ledger is stored as blockchain and each participant can validate its correctness.
+
+* Underlying technologies
+
+- cryptographic hash functions
+- data structures
+- digital signatures
+
+* Cryptographic hash functions
+
+h: X -> H
+
+- fixed result size
+- deterministic
+- fast
+- irreversible
+- collision infeasibility I
+- collision infeasibility II
+
+* Hash pointers
+
+Pointer + hash of the data pointed.
+
+Marked as H( ).
+
+* Linked list
+
+A.k.a blockchain.
+
+Blocks are linked with hash pointers.
+
+Special first block – genesis.
+
+* Merkle tree
+
+Rooted complete binary tree of hashes with data leaves.
+
+Leaf existence proof takes O(logN), where N - total number of leaves.
+
+* Digital signature
+
+- integrity
+- authentication
+- non-repudiation
+
+
+* Links
+
+.link https://www.coursera.org/learn/introduction-to-blockchain Introduction to blockchain course
+.link https://habr.com/post/319868/ Bitcoin in a nutshell

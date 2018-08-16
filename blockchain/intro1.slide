@@ -21,13 +21,21 @@ Shares around 50% of cryptocurrency market.
 
 Compare: Apple capitalisation is around $900 billion.
 
+.image bitcoin.png 200 _
+
 * Fiat money
 
-At exchanges one can change cryptocurrency to fiat money or vice versa.
+The term 'fiat' is given to a currency that a government has declared to be legal tender.
 
-Fiat money is a currency without intrinsic value that has been established as money, often by government regulation.
+Derived from the Latin fiat ("it shall be" or "let it be done").
+
+However it is not backed by a _physical_ commodity.
 
 Fiat money value is based on *agreement*.
+
+* Fiat money
+
+.image fiat.jpg
 
 * Two ingredients
 
@@ -90,6 +98,10 @@ Solves third-party confidence problem.
 
 * Double spending problem
 
+.image double-spending.jpg
+
+* Double spending problem
+
 Was not solved until 2009.
 
 To prevent double spending a special registry of transactions must be held (ledger).
@@ -104,6 +116,8 @@ Solution: ledger is stored as blockchain and each participant can validate its c
 - data structures
 - digital signatures
 
+* Cryptographic TL;DR
+
 * Cryptographic hash functions
 
 h: X -> H
@@ -117,23 +131,21 @@ h: X -> H
 
 * Hash pointers
 
-Pointer + hash of the data pointed.
-
-Marked as H( ).
+.image hash-pointer.png
 
 * Linked list
 
-A.k.a blockchain.
-
-Blocks are linked with hash pointers.
-
-Special first block – genesis.
+.image blockchain.png _ 1000
 
 * Merkle tree
 
-Rooted complete binary tree of hashes with data leaves.
+.image merkle-tree.png _ 800
+
+* Merkle tree
 
 Leaf existence proof takes O(logN), where N - total number of leaves.
+
+.image merkle-tree-auth.png _ 1000
 
 * Digital signature
 
@@ -141,6 +153,29 @@ Leaf existence proof takes O(logN), where N - total number of leaves.
 - authentication
 - non-repudiation
 
+* Digital signature algorithm
+
+OK, PK := generateKeys(size)
+
+s := sign(text, PK)
+
+valid := verify(text, s, OK)
+
+.image sign.png _ 400
+
+* Requirements
+
+- corresponding OK should validate sign made with PK
+- OK is not enough to fake sign
+- s1, s2, .., sn is not enough to fake sign
+
+A good random numbers generator is needed.
+
+Signing is labour time-consuming task. That is why hashes are often signed.
+
+ECDSA is used in Bitcoin.
+
+In Bitcoin OK is identifier.  One can have multiple OK.
 
 * Links
 

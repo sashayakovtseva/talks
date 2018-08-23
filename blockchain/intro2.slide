@@ -1,0 +1,113 @@
+Introduction to blockchain
+Part II
+16 Aug 2018
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Cryptocurrency blockchain
+
+- consists of blocks
+- each block contains at least one transaction
+- transaction is a list on inputs and outputs
+- output is an amount of coins and script with rules
+- input is a pointer to output and script
+
+* Cryptocurrency storage
+
+Any blockchain system should have identifiers to send/receive coins.
+
+Those identifiers are usually called addresses.
+
+Address is generated from user's public key.
+
+* Bitcoin address
+
+It is more likely that the Earth is destroyed in the next 5 seconds, than that a collision occur in the next millenium.
+.caption [[https://en.bitcoin.it/wiki/Technical_background_of_version_1_Bitcoin_addresses][Bitcoin Wiki]]
+
+- P2PKH - Pay To Public Key Hash
+- P2PK - Pay To Public Key
+- P2SH - Pay To Script Hash
+
+* Safety issue
+
+To store & use Bitcoins one should store & use private keys safely.
+
+_Wallet_ - software for storing & managing keys with friendly UI.
+
+Types of wallets:
+
+- hot - online keys storage, easy and not safe
+- cold - offline storage, inconvenient yet safe
+
+* Key management strategy
+
+- generate keys for hot & cold storage
+- too many coins in hot? send to cold address
+- not enough in hot? put cold key pair into hot wallet
+
+A set of key pairs is usually generated.
+
+It is common to set up _deterministic_ wallets – a single seed is used to generate all the keys.
+
+* Key services
+
+.iframe https://www.bitaddress.org/ 500 900
+
+* Cold keys storage
+
+- in-memory on offline device
+- brainwallet
+- paperwallet
+- tamperproof device
+
+.image trezor.png
+
+* Multisignatures
+
+In Bitcoin script can be specified as recipient (P2SH).
+
+That is how extra rules on transaction may be added.
+
+Example: this bitcoins may be spent by anyone who provides at least 2 valid signatures for the following public keys: {PK1, PK2, PK3}
+
+As a result:
+
+- responsibility distribution
+- increased security
+- multifactor transaction signing
+
+* Processing
+
+.image bitcoin_payment.png
+
+* Cryptocurrency exchange
+
+- accept cryptocurrency and fiat
+- on demand fund return
+- fiat to cryptocurrency exchange and vice versa
+
+Note: cryptocurrency operations are not always included into blockchain. Some of them are exchange local.
+
+Exchanges connect cryptocurrency with world economics.
+
+Problem: third-party player trust.
+
+* Proof of reserves
+
+Exchanges are subject to regular bank regulations.
+
+The major part of fund is placed in cold storage.
+
+In hot storage - daily turnover only.
+
+One can request proof of reserves: exchange will proof its opulence with special signature.
+
+
+* Links
+
+.link https://www.coursera.org/learn/introduction-to-blockchain Introduction to blockchain course
+.link https://habr.com/post/319868/ Bitcoin in a nutshell
+.link https://en.bitcoin.it/wiki/Technical_background_of_version_1_Bitcoin_addresses Technical background of version 1 Bitcoin addresses

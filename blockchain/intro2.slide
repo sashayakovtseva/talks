@@ -1,6 +1,6 @@
 Introduction to blockchain
 Part II
-16 Aug 2018
+23 Aug 2018
 
 Sasha Yakovtseva
 Golang developer, iTechArt
@@ -104,7 +104,6 @@ The major part of fund is placed in cold storage.
 In hot storage - daily turnover only.
 
 One can request proof of reserves: exchange will proof its opulence with special signature.
-
 
 * Links
 

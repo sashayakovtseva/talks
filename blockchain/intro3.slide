@@ -1,0 +1,95 @@
+Introduction to blockchain
+Part III
+30 Aug 2018
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Blockchain topology
+
+* Possible topologies
+
+.image topology.png
+
+* Bitcoin network
+
+.iframe https://lnmainnet.gaben.win/ 600 1000
+
+* Centralized systems
+
+- cheap (no extra costs to maintain security)
+- efficient
+- easy to use (often support team available)
+
+* Decentralized systems
+
+- expensive
+- slow (scaling issues)
+- complex
+
+Absolutely decentralized systems are Utopia.
+
+* Bitcoin system
+
+Decentralized due to system specification and economical motivation
+
+Consists of:
+
+- P2P network – anyone can join, decentralized
+- mining - theoretically decentralized
+- software - centralized
+
+* Blockchain consensus
+
+* Problem
+
+- who maintains blockchain?
+- who validates transactions?
+- who creates new coins?
+- who specifies rules?
+- who measures coins value?
+
+How to create *decentralized* system that answers all this questions?
+
+* Consensus definition
+
+N nodes, k < N - unavailable or villain.
+
+Nodes suggest some data to meet the consensus about.
+
+Consensus algorithm result:
+
+- a single value among all suggestions is chosen
+- a chosen value is suggested by a valid node
+
+It was believed that consensus can't be reached in decentralized system.
+
+Until...
+
+* Bitcoin consensus
+
+- nodes are motivated to play according to the rules
+- eventual consistency (avg. 6 blocks to be sure)
+
+Assume > 50% of nodes are fair players. The idea is:
+
+- random node is chosen to propose next block
+- if block is valid others include it into their local blockchain
+- otherwise block is ignored
+
+* The algorithm
+
+- new transaction is spread among all nodes
+- each node builds new block
+- random node publishes block
+- others accept it if its valid and use its hash for next blocks
+
+Every transaction is signed so attacker cannot use others coins.
+
+* Possible attack
+
+* Links
+
+.link https://www.coursera.org/learn/introduction-to-blockchain Introduction to blockchain course
+.link https://habr.com/post/319868/ Bitcoin in a nutshell

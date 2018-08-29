@@ -89,6 +89,71 @@ Every transaction is signed so attacker cannot use others coins.
 
 * Possible attack
 
+- Eva send Tx1:Eva->Bob to blockchain
+- Tx1 is accepted
+- Eva is chosen to generate next block
+- Eva includes Tx2:Eva->Eva to new block
+
+Double spending?!
+
+* Attack fails
+
+According to the algorithm only one chain exists so either Tx1 or Tx2 is included.
+
+As a result:
+
+- cryptography for authorized transactions
+- consensus algorithm for network rules
+- consensus algorithm for double spending protection
+- time for confidence
+
+* Fair miners benefit
+
+- reward for each block found
+- reward can be spent in fair chain
+- reward is fixed (12.5 BTC, helves every 4 years)
+- reward is the only way new cain appear
+- miner gets fees for each transaction in found block
+
+How to chose node to publish next block?
+
+* Fair algorithm
+
+Miners must be chosen according to some algorithm base on a _resource_ that cannot be faked.
+
+- CPU - proof of work
+- Balance - proof of stake
+
+    P(i-th miner is chosen) = f(res)
+
+PoW systems support cold start unlike PoS systems.
+
+* Proof of work
+
+- node is chosen in proportion to available compute power
+- any node can compete for the right to publish next block
+- mining should be compute complicated
+
+* Bitcoin's PoW
+
+In Bitcoin PoW is achieved by hash restrictions:
+
+    h < H(nonce||prev_h||tx1||tx2||...||txN)
+
+where h is next block's hash.
+
+- complicated to be the first to find hash (> 7.9*10^9 hash/sec)
+- adaptive complexity
+- easy to verify block
+
+The more work is done against the chain - the more valuable it is considered.
+
+* Miner's profit
+
+ Profit = Reward + Fees - HW Price - Bills
+
+Profit depends on network hashrate.
+
 * Links
 
 .link https://www.coursera.org/learn/introduction-to-blockchain Introduction to blockchain course

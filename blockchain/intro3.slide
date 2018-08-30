@@ -107,6 +107,8 @@ As a result:
 - consensus algorithm for double spending protection
 - time for confidence
 
+* Mining
+
 * Fair miners benefit
 
 - reward for each block found
@@ -152,7 +154,7 @@ The more work is done against the chain - the more valuable it is considered.
 
  Profit = Reward + Fees - HW Price - Bills
 
-Profit depends on network hashrate.
+Profit depends on network hash rate.
 
 * Links
 

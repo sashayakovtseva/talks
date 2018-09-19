@@ -1,0 +1,112 @@
+Introduction to blockchain
+Part IV
+20 Sep 2018
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Blockchain security
+
+Blockchain algorithm itself is pretty secure.
+
+However attacks are possible:
+
+- against users
+- against network & communication
+- against algorithm
+- against consensus
+
+* Attack against users
+
+_Goal_: posses user's keys
+
+_Means_: viruses
+
+_Result_: attacker owns the keys, coins are lost forever
+
+_Protection_: understanding blockchain & cold storage usage
+
+* Examples
+
+- add virus signature into tx. Antivirus on node will remove files which leads to node failure
+- add illegal information into tx. Users may be compromised
+- embed virus into blockchain software
+- socket monitoring to deanonymize user
+
+* Attack against network
+
+_Goal_: cause node/network failure
+
+_Means_: traffic generators (Dos/DDos)
+
+_Result_: blockchain is unavailable
+
+_Protection_: firewalls (node) & nodes population (whole blockchain)
+
+* Sybil attack (eclipse)
+
+_Goal_: surround node with only attacker's nodes
+
+_Result_: attacker fully controls how node sees blockchain
+
+_Protection_: the more nodes are in blockchain the more it is unlikely to happen
+
+.image sybil.png 300 _
+
+* Attack against blockchain
+
+_Goal_: cause algorithm failure
+
+_Means_: attack cryptography, spamming (lots of tx to yourself)
+
+_Result_: tx are either slow or expensive
+
+* Attack against consensus
+
+_Goal_: control blockchain
+
+_Means_: 51% attack, network splitting, software vulnerabilities
+
+_Result_: blockchain is controlled by a group of villains
+
+_Protection_: leaving large pools that are close to 51%
+
+* Bitcoin script language
+
+Bitcoin transactions are simply set of inputs and outputs.
+
+To use an output means making it an input in another transaction.
+
+Output = amount of coins + script with spending rules.
+
+Input = output + script satisfying the spending rules.
+
+Bitcoin script language is stack-like, without loops & multiplication operation.
+
+* Bitcoin script language
+
+Common output script is: `spend this coins can anyone who will provide a valid signature for the address A`.
+
+Common input script is: `here is a valid signature for the address A`.
+
+Output types:
+
+- P2PKH
+- P2SH
+
+* Examples
+
+	Output: OP_ADD 4 OP_EQUAL
+	Want: <Input> OP_ADD 4 OP_EQUAL == TRUE
+	Valid input: 2 2 OR 3 1 OR 1 3
+
+More real:
+
+	P2PKH Output: OP_DUP OP_HASH160 <PubKeyHash> OP_EQUALVERIFY P_CHECKSIG
+	Input to spend: <Sig> <PubKey>
+
+* Links
+
+.link https://www.coursera.org/learn/introduction-to-blockchain Introduction to blockchain course
+.link https://habr.com/post/319868/ Bitcoin in a nutshell

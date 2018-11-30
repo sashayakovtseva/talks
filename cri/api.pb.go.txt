@@ -1,0 +1,95 @@
+// START RUNTIME OMIT
+type RuntimeServiceServer interface {
+
+	Version(context.Context, *VersionRequest) (*VersionResponse, error) // HLimpl
+
+	UpdateRuntimeConfig(context.Context, *UpdateRuntimeConfigRequest)
+	(*UpdateRuntimeConfigResponse, error)
+
+	Status(context.Context, *StatusRequest) (*StatusResponse, error) // HLimpl
+
+}
+// END RUNTIME OMIT
+
+// START POD MANAGEMENT OMIT
+type RuntimeServiceServer interface {
+
+	RunPodSandbox(context.Context, *RunPodSandboxRequest) (*RunPodSandboxResponse, error) // HLimpl
+
+	StopPodSandbox(context.Context, *StopPodSandboxRequest) (*StopPodSandboxResponse, error) // HLimpl
+
+	RemovePodSandbox(context.Context, *RemovePodSandboxRequest) (*RemovePodSandboxResponse, error) // HLimpl
+
+	PodSandboxStatus(context.Context, *PodSandboxStatusRequest) (*PodSandboxStatusResponse, error) // HLimpl
+
+	ListPodSandbox(context.Context, *ListPodSandboxRequest) (*ListPodSandboxResponse, error) // HLimpl
+
+}
+// END POD MANAGEMENT OMIT
+
+// START CONTAINER MANAGEMENT OMIT
+type RuntimeServiceServer interface {
+
+	CreateContainer(context.Context, *CreateContainerRequest) (*CreateContainerResponse, error) // HLimpl
+
+	StartContainer(context.Context, *StartContainerRequest) (*StartContainerResponse, error) // HLimpl
+
+	StopContainer(context.Context, *StopContainerRequest) (*StopContainerResponse, error) // HLimpl
+
+	RemoveContainer(context.Context, *RemoveContainerRequest) (*RemoveContainerResponse, error) // HLimpl
+
+	ListContainers(context.Context, *ListContainersRequest) (*ListContainersResponse, error) // HLimpl
+
+	ContainerStatus(context.Context, *ContainerStatusRequest) (*ContainerStatusResponse, error) // HLimpl
+
+}
+// END CONTAINER MANAGEMENT OMIT
+
+// START CONTAINER ADVANCED OMIT
+type RuntimeServiceServer interface {
+
+	UpdateContainerResources(context.Context, *UpdateContainerResourcesRequest)
+	(*UpdateContainerResourcesResponse, error)
+
+	ReopenContainerLog(context.Context, *ReopenContainerLogRequest)
+	(*ReopenContainerLogResponse, error)
+
+	ExecSync(context.Context, *ExecSyncRequest) (*ExecSyncResponse, error) // HLimpl
+
+	ContainerStats(context.Context, *ContainerStatsRequest) (*ContainerStatsResponse, error)
+
+	ListContainerStats(context.Context, *ListContainerStatsRequest)
+	(*ListContainerStatsResponse, error)
+
+}
+// END CONTAINER ADVANCED OMIT
+
+
+
+
+type ImageServiceServer interface {
+
+	ListImages(context.Context, *ListImagesRequest) (*ListImagesResponse, error) // HLimpl
+
+	ImageStatus(context.Context, *ImageStatusRequest) (*ImageStatusResponse, error) // HLimpl
+
+	PullImage(context.Context, *PullImageRequest) (*PullImageResponse, error) // HLimpl
+
+	RemoveImage(context.Context, *RemoveImageRequest) (*RemoveImageResponse, error) // HLimpl
+
+	ImageFsInfo(context.Context, *ImageFsInfoRequest) (*ImageFsInfoResponse, error)
+
+}
+
+type StreamingRuntime interface {
+
+	Exec(containerID string, cmd []string,
+	 in io.Reader, out, err io.WriteCloser, tty bool,
+	 resize <-chan remotecommand.TerminalSize) error
+
+	Attach(containerID string,  // HLimpl
+	in io.Reader, out, err io.WriteCloser,  // HLimpl
+	tty bool, resize <-chan remotecommand.TerminalSize) error  // HLimpl
+
+	PortForward(podSandboxID string, port int32, stream io.ReadWriteCloser) error
+}

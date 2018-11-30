@@ -1,0 +1,202 @@
+CRI in details
+30 Nov 2018
+
+Sasha Yakovtseva
+Go Developer
+
+sashayakovtseva@gmail.com
+sasha@sylabs.io
+a.yakautsava@itechart-group.com
+
+* Agenda
+
+- Brief reminder of k8s (what, why and how)
+- Singularity CRI in details
+
+Questions may be asked during the talk.
+
+* What is K8s
+
+_Kubernetes_ is:
+
+- a open-source platform for managing containerized apps
+- both declarative configuration and automation
+- large and rapidly growing ecosystem
+
+* K8s Clusters
+
+.image cluster.png 500 _
+
+* K8s Nodes
+
+.image node.png 500 _
+
+* Why CRI?
+
+Docker is the most widely known container runtime, the first one.
+
+Kubelet source code works with Docker directly.
+
+Container runtime space is rapidly evolving.
+
+*Problem*: no possibility to integrate another container runtime
+without changing kubelet source code.
+
+* What is CRI?
+
+CRI stands for _Container_ _Runtime_ _Interface_.
+
+.image cri.png
+
+Introduced in k8s v1.5 (alpha).
+
+K8s v1.7+ removed non-CRI Docker code completely.
+
+* K8s CRI shim evolution
+
+.image containerd1.png _ 700
+
+.image containerd2.png _ 700
+
+Containerd 1.1 works with K8s 1.10+.
+
+* What exactly is CRI?
+
+CRI is a set of two gRPC services:
+
+- ImageService
+
+- RuntimeService
+
+gRPC Service is a set of calls(methods) with defined incoming and returned messages(structs).
+
+CRI services are defined in `api.proto` file.
+
+That file is then used to generate `.go` file based on it.
+
+Generated `.go` file has *<name>ServiceClient* and *<name>ServiceServer* for each service in `api.proto`.
+
+* Implementing CRI
+
+So far we know the following:
+
+- we need to work with generated `.go` file
+- that file consists of interfaces and structs
+
+To *implement* *CRI* we need to provide two types that satisfy ImageServiceServer
+and RuntimeServiceServer interfaces respectively.
+
+Combining implementation into a single type is also possible.
+
+Singularity CRI has two distinct types for each service server.
+
+* CRI services in details
+
+* ImageServiceServer interface
+
+.code api.pb.go.txt /^type ImageServiceServer/,/^}/ HLimpl
+
+* ImageServiceServer implementation details
+
+- capable of pulling images from library/shub/docker
+- store as SIF, verify when pulling from library
+- `registry.json` file is kept to restore state upon restarts
+- in-memory trie is used to allow convenient search
+- handles search by tags, digests
+- handles image merging and update in special cases
+
+* ImageServiceServer implementation flaws
+
+.link https://github.com/sylabs/cri/issues?q=is%3Aissue+is%3Aopen+label%3A%22image+service%22 List of issues and bugs
+
+* RuntimeServiceServer interface
+
+Preparing OCI bundles, that will be used
+by OCI engine to run pods and containers.
+
+Preparing pod namespaces.
+
+Keeping pods and containers index.
+
+Interact with OCI engine to maintain latest state of objects.
+
+Serving streaming endpoints to interact with containers.
+
+* Pod management
+
+CRUD operations on pods.
+
+.code api.pb.go.txt /START POD MANAGEMENT/,/END POD MANAGEMENT/ HLimpl
+
+* Pod explained
+
+- pod is a dummy process kept by the OCI engine
+- it helds IPC/NET/PID/UTS namespaces that containers will join later
+- responsible for configuring NET namespace using CNI plugins
+- a container for containers
+- when pod is Stopped/Removed - inner containers are too
+- pod rootfs consists of `/proc` and `/dev` only
+- has two states: ready, not ready
+
+* Container management
+
+CRUD operations on containers.
+
+.code api.pb.go.txt /START CONTAINER MANAGEMENT/,/END CONTAINER MANAGEMENT/ HLimpl
+
+* Container explained
+
+- container is user-defined  process in prepared environment
+- run in pod's context (shared pod network is the most common case)
+- rootfs is overlay fs based on SIF
+- logs are collected by the runtime
+- has four states: created, running, exited, unknown
+- runtime is responsible for providing meta info in OCI state annotations
+
+* Container related methods
+
+Includes advances methods.
+
+.code api.pb.go.txt /START CONTAINER ADVANCED/,/END CONTAINER ADVANCED/ HLimpl
+
+* Streaming endpoints
+
+Kubernetes provides features (*exec/attach/port-forward*) for users to interact with a pod and the containers in it.
+
+Using tools on the node (e.g., nsenter) is not a portable solution.
+
+CRI explicitly defines these calls in the API to allow runtime-specific implementations.
+
+Singularity CRI starts a separate _streaming_ _server_ upon start.
+
+It returns the location of the streaming server to kubelet.
+
+Kubelet returns this information to the Kubernetes API server, which opens a streaming connection directly to the streaming server and connects it to the client.
+
+* Singularity CRI Streaming
+
+.code api.pb.go.txt /StreamingRuntime/,/^}/ HLimpl
+
+- runtime opens _attach_ and _control_ sockets to connect to
+- attach socket is used for io streams propagation
+- control socket is used to send terminal resize events
+- control socket will be used to reopen logs later
+
+* Runtime methods
+
+Simply query runtime version and status.
+
+.code api.pb.go.txt /START RUNTIME/,/END RUNTIME/ HLimpl
+
+
+* RuntimeServiceServer implementation flaws
+
+.link https://github.com/sylabs/cri/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+-label%3A%22image+service%22 List of issues and bugs
+
+* Additional links
+
+.link https://kubernetes.io/blog/2016/12/container-runtime-interface-cri-in-kubernetes/ Introducing Container Runtime Interface (CRI) in Kubernetes
+.link https://kubernetes.io/blog/2018/05/24/kubernetes-containerd-integration-goes-ga/ Kubernetes Containerd Integration Goes GA
+.link https://github.com/sylabs/cri Singularity implementation of Kubernetes CRI
+.link https://www.sylabs.io/2018/11/towards-native-integration-between-singularity-containers-and-kubernetes-announcing-an-open-source-project/ Sylabs blogpost
+.link https://kubernetes.io/docs/concepts/ Kubernetes concepts

@@ -1,5 +1,5 @@
 CRI in details
-30 Nov 2018
+20 Dec 2018
 
 Sasha Yakovtseva
 Go Developer
@@ -98,7 +98,7 @@ Singularity CRI has two distinct types for each service server.
 
 * ImageServiceServer implementation details
 
-- capable of pulling images from library/shub/docker
+- capable of pulling images from library/docker
 - store as SIF, verify when pulling from library
 - `registry.json` file is kept to restore state upon restarts
 - in-memory trie is used to allow convenient search
@@ -131,7 +131,7 @@ CRUD operations on pods.
 * Pod explained
 
 - pod is a dummy process kept by the OCI engine
-- it helds IPC/NET/PID/UTS namespaces that containers will join later
+- it holds IPC/NET/PID/UTS namespaces that containers will join later
 - responsible for configuring NET namespace using CNI plugins
 - a container for containers
 - when pod is Stopped/Removed - inner containers are too

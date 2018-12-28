@@ -1,0 +1,36 @@
+Overlay filesystem
+and its place in container runtimes
+3 Jan 2019
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Agenda
+
+- Intro
+- Overlayfs
+- Overlayfs2
+- Q&A
+
+* Intro
+
+* What is a filesystem?
+
+A *filesystem* controls how data is stored and retrieved.
+
+There are various types of filesystems:
+- disk (FAT, NTFS, ext3)
+- distributed (NFS)
+- special (procfs, sysfs, devfs)
+- etc
+
+* Container filesystems
+
+Each container needs a filesystem.
+
+Container _image_ is the basis of created filesystem.
+
+But how do we make it possible to run N containers based on a single image?
+
+*

@@ -1,0 +1,133 @@
+Bloom filter 
+21 Feb 2019
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Agenda
+
+- Internals
+- Analysis
+- Usage
+- Demo
+- Q&A
+
+* What is Bloom filer?
+
+- space-efficient probabilistic data structure
+- conceived by Burton Howard Bloom in 1970
+- used to test whether an element is a member of a set
+
+* Internal structure
+
+Bloom filter consists of:
+
+- a bit arrary of length _m_
+- _k_ independent hash functions
+
+Hashes of element _x_ generate a uniform random disribution on array.
+
+_k_ << _m_ number of hash function is much smaller than array length,
+determined by the intended false positive rate of the filter
+
+* Opeartions
+
+Add(x) = { Bi = 1 : ∀ i = Hj(x) mod m, j ∈ [0, k) }
+
+Add element x to the set means setting all matching bits to 1.
+
+Complexity: _O(k)_ * (_O(1)_ + _O(1)_) = _O(k)_
+
+* Operations 
+
+Check(x) = { if &Bi = 0, return "no", else return "possibly" : ∀ i = Hj(x) mod m, j ∈ [0, k) }
+
+Check whether element x is present in set. 
+False positives are possible, but false negatives are not.
+
+Complexity: _O(k)_ * (_O(1)_ + _O(1)_) = _O(k)_
+
+* Operations
+
+Remove(x) is not supported in the simplest implementation.
+
+Modification with counters solves this problem, but requires more memory.
+
+* Example
+
+.image example.png
+
+* Analysis
+
+Pros:
+
+- space efficient
+- _k_ hash lookups can be parallelized
+
+Cons:
+
+- false positives
+- no way to list elements
+
+* Choosing optimal parameters
+
+Probability of _Bi_ to equal zero after a round of hashing:
+_P(Bi_ _==_ _0)_ = 1 - 1/m
+
+Hash functions are independent, so after all rounds:
+_P(Bi_ _==_ _0)_ = (1 - 1/m)^k
+
+After inserting _n_ elements:
+_P(Bi_ _==_ _0)_ = (1 - 1/m)^kn
+
+Probability of the opposite event:
+_P(Bi_ _==_ _1)_ = 1 - (1 - 1/m)^kn
+
+Probability of the false positive:
+_P(x_ _∈_ _F)_ = _P(Bi_ _==_ _1)^k_ = (1 - (1 - 1/m)^kn)^k
+
+Target equation:
+_P(x_ _∈_ _F)_ -> _min(k)_
+
+* Choosing optimal parameters
+
+After solving:
+
+_k_ = _m/n_ * _ln2_
+
+_m_ = - _n_ * _lnp_ / _(ln2)^2_, where _p_ - false positive probability.
+
+So, optimal number of bits per element:
+
+_m/n_ = - _lnp_ / _(ln2)^2_ = - _1.44_ * _log2(p)_
+
+and number of hash function:
+
+_k_ = - _lnp_ / _(ln2)_ = - _log2(p)_
+
+* Choosing optimal parameters
+
+For _p_ = 1%:
+
+_k_ = 6.64
+
+_m/n_ = 9.56
+
+For _p_ = 0.1%:
+
+_k_ = 9.96
+
+_m/n_ = 14.35
+
+* Usage
+
+- Databases(Bigtable, HBase, Cassandra, Postgres) use Bloom filter to minimize disk lookups
+
+- Google Chrome uses Bloom filter to identify malicious URLs
+
+.image db-example.png 400 _
+
+* Go implementation
+
+.play -edit bloom.go /^func main/,/^}/

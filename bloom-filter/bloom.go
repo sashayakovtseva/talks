@@ -66,9 +66,9 @@ func generateHashes(k int) []hashFunc {
 	for i := 0; i < k; i++ {
 		seed := rand.Int31()
 		hh = append(hh, func(bb []byte) int32 {
-			res := int64(1)
+			res := int32(1)
 			for _, b := range bb {
-				res += (int64(seed)*int64(res) + int64(b)) & 0xFFFFFFFF
+				res += seed*res + int32(b)
 			}
 
 			return int32(res)

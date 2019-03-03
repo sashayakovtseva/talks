@@ -10,6 +10,9 @@ import (
 )
 
 func main() {
+	if runtime.GOOS != "linux" {
+		log.Fatalf("This example can be run on Linux only")
+	}
 	f, err := os.Open("/etc/passwd")
 	if err != nil {
 		log.Fatal(err)
@@ -30,7 +33,7 @@ func main() {
 func ll(dir string) {
 	fii, err := ioutil.ReadDir(dir)
 	if err != nil {
-		log.Printf("Could not read %d: %v", dir, err)
+		log.Printf("Could not read %s: %v", dir, err)
 		return
 	}
 	log.Printf("%s:", dir)

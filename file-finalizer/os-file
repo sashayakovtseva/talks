@@ -1,0 +1,19 @@
+type File struct {
+	*file // os specific
+}
+
+func newFile(fd uintptr, name string, kind newFileKind) *File {
+	fdi := int(fd)
+	f := &File{&file{
+		pfd: poll.FD{
+			Sysfd:         fdi,
+			IsStream:      true,
+			ZeroReadIsEOF: true,
+		},
+		name:        name,
+		stdoutOrErr: fdi == 1 || fdi == 2,
+	}}
+	...
+	runtime.SetFinalizer(f.file, (*file).close) // HLprivate
+	return f
+}

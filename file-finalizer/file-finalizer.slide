@@ -1,0 +1,142 @@
+File finalizers
+And why they don't work in Go
+7 Mar 2019
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Agenda
+
+- What is finalizer
+- Use case
+- Attempts and failures
+- Conclusion
+
+* What is finalizer
+
+A *finalizer* is a special method that performs finalization, generally some form of cleanup.
+
+A finalizer is called when an object is garbage collected – after an object
+has become garbage (unreachable), but before its memory is deallocated.
+
+.caption From [[https://en.wikipedia.org/wiki/Finalizer][Wikipedia]]
+
+* Finalizer in Go
+
+	func SetFinalizer(obj interface{}, finalizer interface{})
+
+Parameters:
+
+- a *pointer* to an object
+- func(o *objType) [return values]
+
+: The finalizer is scheduled to run at some arbitrary time after the program can
+: no longer reach the object to which obj points.
+
+: When the GC finds an unreachable block A with finA:
+: - rm finA from A
+: - finA() in goroutine
+: - free A
+
+: A single goroutine runs all finalizers for a program, sequentially.
+: If a finalizer must run for a long time, it should do so by starting a new goroutine.
+
+SetFinalizer(obj, nil) clears any finalizer associated with obj.
+
+: Finalizers are run in dependency order: A->B & finA+finB =>
+: - finA()
+: - free A
+: - finB()
+: - free B
+
+* Finalizer properties
+
+*NOT* guaranteed to run:
+
+- in a cyclic structure
+: b/c it is not guaranteed to be even GCed
+
+- at all
+: b/c GC is not necessarily run during program execution
+: useful for os.File without Close
+: MISTAKE: flush an in-memory bufio.Writer, because the buffer would not be flushed at program exit.
+
+- if size(*obj) == 0
+
+- for package-level variables
+: such objects may be linker-allocated, not heap-allocated.
+
+
+A finalizer may run as soon as an object becomes unreachable.
+
+Objects stored in global variables, or that can be found by tracing
+pointers from a global variable, are reachable.
+
+
+* Keep alive
+
+	func KeepAlive(x interface{})
+
+Marks its argument as currently reachable.
+
+This ensures that the object is not freed, and its finalizer
+is not run, before the point in the program where KeepAlive is called.
+
+* Example
+
+: For example, if p points to a struct that contains a file descriptor d,
+: and p has a finalizer that closes that file descriptor, and if the last
+: use of p in a function is a call to syscall.Write(p.d, buf, size), then p
+: may be unreachable as soon as the program enters syscall.Write. The finalizer
+: may run at that moment, closing p.d, causing syscall.Write to fail because it is
+: writing to a closed file descriptor (or, worse, to an entirely different file
+: descriptor opened by a different goroutine). To avoid this problem, call
+: runtime.KeepAlive(p) after the call to syscall.Write.
+
+.play keep-alive.go /^func main/,/^}/ HLerror
+
+* Use case
+
+- pipes
+- flocks
+
+.link https://github.com/sylabs/singularity/blob/4e49bce5461f1de73157a7eb97e3ff5bd0b3ebcd/pkg/util/fs/lock/lock.go Example
+
+: Problem: program fails because of invalid file descriptor
+
+* Solution
+
+Remove finalizer and control file lifetime manually.
+
+.play passwd.go /^func main/,/^}/
+
+* Trying to debug
+
+.play finalizer.go /^func main/,/^}/
+
+* Diving into Go library
+
+_TL;DR_ Go doesn't allow programmers to control `File`.
+
+.code os-file HLprivate
+
+* Second attempt
+
+Use `syscall` package.
+
+.play passwd-syscall.go /^func main/,/^}/
+
+BTW `syscall` package is deprecated.
+
+.link https://github.com/sylabs/singularity/blob/af1d7014bc14776c47f4bff5fcf850e493a7b193/pkg/util/fs/lock/lock.go Working example
+
+* Conclusion
+
+Go is not always suitable for system programming.
+
+There are may other flaws that may appear.
+
+But sometimes they can be circumvented with low-level system calls.
+
+*Stay*alert!*

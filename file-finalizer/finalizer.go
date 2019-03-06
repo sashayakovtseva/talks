@@ -11,7 +11,7 @@ import (
 
 func main() {
 	if runtime.GOOS != "linux" {
-		log.Fatalf("This example can be run on Linux only")
+		log.Fatalf("OS: want Linux, but got %s", runtime.GOOS)
 	}
 	f, err := os.Open("/etc/passwd")
 	if err != nil {

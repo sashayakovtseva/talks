@@ -115,6 +115,10 @@ Remove finalizer and control file lifetime manually.
 
 .play finalizer.go /^func main/,/^}/
 
+* Debug output
+
+.code finalizer.out
+
 * Diving into Go library
 
 _TL;DR_ Go doesn't allow programmers to control `File`.

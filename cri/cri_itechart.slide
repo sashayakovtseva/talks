@@ -54,6 +54,22 @@ Introduced in k8s v1.5 (alpha).
 
 K8s v1.7 removed non-CRI Docker code completely (30 Jun 2017).
 
+* What exactly is CRI?
+
+CRI is a set of two gRPC services:
+
+- ImageService
+
+- RuntimeService
+
+gRPC Service is a set of calls(methods) with defined incoming and returned messages(structs).
+
+CRI services are defined in `api.proto` file.
+
+That file is then used to generate `.go` file based on it.
+
+Generated `.go` file has *<name>ServiceClient* and *<name>ServiceServer* for each service in `api.proto`.
+
 * Known implementations
 
 - cri-containerd
@@ -77,22 +93,6 @@ K8s v1.7 removed non-CRI Docker code completely (30 Jun 2017).
 * Singularity image format
 
 .image sif.png
-
-* What exactly is CRI?
-
-CRI is a set of two gRPC services:
-
-- ImageService
-
-- RuntimeService
-
-gRPC Service is a set of calls(methods) with defined incoming and returned messages(structs).
-
-CRI services are defined in `api.proto` file.
-
-That file is then used to generate `.go` file based on it.
-
-Generated `.go` file has *<name>ServiceClient* and *<name>ServiceServer* for each service in `api.proto`.
 
 * Implementing CRI
 
@@ -125,21 +125,17 @@ Singularity CRI has two distinct types for each service server.
 
 * RuntimeServiceServer interface
 
-Preparing OCI bundles, that will be used by OCI engine to run pods and containers.
-
-Preparing pod namespaces.
-
-Keeping pods and containers index.
-
-Interact with OCI engine to maintain latest state of objects.
-
-Serving streaming endpoints to interact with containers.
+- prepare OCI bundles
+- prepare pod namespaces
+- keep pods and containers index
+- maintain the latest state of objects
+- serve streaming endpoints to interact with containers
 
 * Pod management
 
 CRUD operations on pods.
 
-.code api.pb.go.txt /START POD MANAGEMENT/,/END POD MANAGEMENT/ HLimpl
+.code api.pb.go.txt /START POD MANAGEMENT/,/END POD MANAGEMENT/
 
 * Pod explained
 
@@ -147,7 +143,7 @@ CRUD operations on pods.
 - it holds IPC/NET/PID/UTS namespaces that containers will join later
 - responsible for configuring NET namespace using CNI plugins
 - a container for containers
-- when pod is Stopped/Removed - inner containers are too
+- when pod is stopped/removed - inner containers are too
 - pod rootfs consists of `/proc` and `/dev` only
 - has two states: ready, not ready
 
@@ -155,7 +151,7 @@ CRUD operations on pods.
 
 CRUD operations on containers.
 
-.code api.pb.go.txt /START CONTAINER MANAGEMENT/,/END CONTAINER MANAGEMENT/ HLimpl
+.code api.pb.go.txt /START CONTAINER MANAGEMENT/,/END CONTAINER MANAGEMENT/
 
 * Container explained
 
@@ -164,13 +160,12 @@ CRUD operations on containers.
 - rootfs is overlay fs based on SIF
 - logs are collected by the runtime
 - has four states: created, running, exited, unknown
-- runtime is responsible for providing meta info in OCI state annotations
 
 * Container related methods
 
 Includes advances methods.
 
-.code api.pb.go.txt /START CONTAINER ADVANCED/,/END CONTAINER ADVANCED/ HLimpl
+.code api.pb.go.txt /START CONTAINER ADVANCED/,/END CONTAINER ADVANCED/
 
 * Streaming endpoints
 
@@ -188,28 +183,24 @@ Kubelet returns this information to the Kubernetes API server, which opens a str
 
 * Singularity CRI Streaming
 
-.code api.pb.go.txt /StreamingRuntime/,/^}/ HLimpl
+.code api.pb.go.txt /StreamingRuntime/,/^}/
 
 - runtime opens _attach_ and _control_ sockets to connect to
 - attach socket is used for io streams propagation
-- control socket is used to send terminal resize events
-- control socket will be used to reopen logs later
+- control socket is used to send terminal resize events and ask for log rotation
 
 * Runtime methods
 
 Simply query runtime version and status.
 
-.code api.pb.go.txt /START RUNTIME/,/END RUNTIME/ HLimpl
+.code api.pb.go.txt /START RUNTIME/,/END RUNTIME/
 
+* Useful links
 
-* RuntimeServiceServer implementation flaws
-
-.link https://github.com/sylabs/cri/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+-label%3A%22image+service%22 List of issues and bugs
-
-* Additional links
-
+.link https://github.com/sylabs/singularity Singularity
+.link https://github.com/sylabs/singularity-cri Singularity-CRI
+.link https://www.sylabs.io/2018/11/towards-native-integration-between-singularity-containers-and-kubernetes-announcing-an-open-source-project/ Singularity-CRI announcement
+.link https://www.sylabs.io/2019/04/the-singularity-kubernetes-integration-from-a-deep-learning-use-case-to-the-technical-specifics/ Beta release announcement
+.link https://kubernetes.io/docs/concepts/ Kubernetes concepts
 .link https://kubernetes.io/blog/2016/12/container-runtime-interface-cri-in-kubernetes/ Introducing Container Runtime Interface (CRI) in Kubernetes
 .link https://kubernetes.io/blog/2018/05/24/kubernetes-containerd-integration-goes-ga/ Kubernetes Containerd Integration Goes GA
-.link https://github.com/sylabs/cri Singularity implementation of Kubernetes CRI
-.link https://www.sylabs.io/2018/11/towards-native-integration-between-singularity-containers-and-kubernetes-announcing-an-open-source-project/ Sylabs blogpost
-.link https://kubernetes.io/docs/concepts/ Kubernetes concepts

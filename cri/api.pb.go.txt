@@ -92,4 +92,5 @@ type StreamingRuntime interface {
 	tty bool, resize <-chan remotecommand.TerminalSize) error  	// HLimpl
 
 	PortForward(podSandboxID string, port int32, stream io.ReadWriteCloser) error  // HLimpl
+
 }

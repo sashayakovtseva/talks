@@ -2,67 +2,69 @@ Extending Kubernetes
 Implementing Singularity-CRI
 16 May 2019
 
-Sasha Yakovtseva
+Саша Яковцева
 Go Developer
 
 a.yakautsava@itechart-group.com
 sashayakovtseva@gmail.com
 sasha@sylabs.io
 
-* Agenda
+* План презентации
 
 - Kubernetes
 - CRI
 - Singularity
-- Implementation details
-- Q/A session
+- Детали имплементации
+- Вопросы
 
-* What is K8s?
+* Что такое K8s?
 
-_Kubernetes_ is:
+_Kubernetes_ это:
 
-- an open-source platform for managing containerized apps
-- large and rapidly growing ecosystem
-- a tool traditionally used to manage container services at scale
+- платформа с открытым исходным кодом для управления контейнерами приложений
+- большая и быстро развивающаяся экосистема
+- де-факто стандартный инструмент для оркестрации мастабируемых серсивов
 
-* K8s Clusters
+* Кластры K8s
 
 .image cluster.png 500 _
 
-* K8s Nodes
+* Ноды K8s
 
 .image node.png 500 _
 
-* Why CRI?
+* Зачем нужен CRI?
 
-Docker is the most widely known container runtime, the first one.
+Docker – один из первых и самый известный рантайм для контейнеров.
 
-Kubelet source code works with Docker directly.
+Kubelet обращается к Docker напрямую.
 
-Container runtime space is rapidly evolving.
+Но мир контейнеров расширяется и появляются новые рантаймы.
 
-*Problem*: no possibility to integrate another container runtime
-without changing kubelet source code.
+*Проблемы*: невозможно использовать других контейнеры в K8s без
+изменения исходного кода kubelet.
 
-* What is CRI?
+* Что такое CRI?
 
-CRI stands for _Container_ _Runtime_ _Interface_.
+CRI – сокращенная форма _Container_ _Runtime_ _Interface_.
 
 .image cri.png
 
-Introduced in k8s v1.5 (alpha).
+Впервые выпущена в k8s v1.5 (alpha).
 
-K8s v1.7 removed non-CRI Docker code completely (30 Jun 2017).
+В K8s v1.7 удален весь код общения с Docker напрямую (30 янв 2017).
 
-* What exactly is CRI?
+* А если конкретнее?
 
-CRI is a set of two gRPC services:
+CRI представляет собой два gRPC сервиса:
 
 - ImageService
 
 - RuntimeService
 
-* Known implementations
+: тут можно про прото файл рассказать и что такое grpc
+
+* Имплементации CRI
 
 - cri-containerd
 - cri-o
@@ -72,65 +74,67 @@ CRI is a set of two gRPC services:
 
 * Singularity
 
-- open source container runtime, with mobile and repeatable package format
-- no root escalation in containers
-- no root owned daemon to be installed on the system
+- контейнер рантайм с открытым исходным кодом
+- компактный и понятный формат имеджей
+- без повышения до root при запуске контейнера
+- без root демона на хосте
 
 .image singularity-logo.png
 
-* Who uses Singularity?
+* Кто использует Singularity?
 
 .image singularity-users.png 500 1000
 
-* Singularity image format
+* SIF
+
+Singularity image format
 
 .image sif.png
 
-* Singularity-CRI in details
+* Имплементация Singularity-CRI
 
-* ImageServiceServer interface
+* ImageServiceServer
 
 .code api.pb.go.txt /^type ImageServiceServer/,/^}/
 
-* ImageServiceServer implementation details
+* Детали ImageServiceServer
 
-- pull images from Singularity Cloud Library or Docker Hub
-- store as SIF, verify when pulling from Singularity Cloud Library
-- check SIF already exists before pulling
-- maintain in-memory trie for search operations
-- `registry.json` file is kept to restore state upon restarts
+- скачивание имеджей с Singularity Cloud Library или Docker Hub
+- храниение в SIF, верификация подписи SIF из Singularity Cloud Library
+- префиксное дерево в памяти для операций поиска
+- файл `registry.json` для восстановления хранлища после перезапуска
 
-* RuntimeServiceServer interface
+* RuntimeServiceServer
 
-- prepare OCI bundles
-- prepare pod namespaces
-- maintain pods and containers index
-- maintain the latest state of objects
-- serve streaming endpoints to interact with containers
+- подготовка OCI bundles
+- создание неймспесов для пода
+- индексация всех подов и контейнеров
+- поддержание информации о состоянии объектов
+- стриминг сервис для взамодействия с контейнерами
 
-* Pod management
+* Управление подами
 
-CRUD operations on pods.
+Простой CRUD.
 
 .code api.pb.go.txt /START POD MANAGEMENT/,/END POD MANAGEMENT/
 
-* Pod explained
+* Что такое под?
 
-- pod is a dummy process kept by the OCI engine
+- под это поцесс-заглушка, запущенный OCI engine
 - holds IPC/NET/PID/UTS namespaces that containers will join later
 - configures NET namespace with CNI plugins
-- a container for containers
+- конетейнер для контейнеров
 - when pod is stopped/removed - inner containers are too
 - pod rootfs consists of `/proc` and `/dev` only
 - has two states: ready, not ready
 
-* Container management
+* Управление контенерами
 
-CRUD operations on containers.
+Простой CRUD.
 
 .code api.pb.go.txt /START CONTAINER MANAGEMENT/,/END CONTAINER MANAGEMENT/
 
-* Container explained
+* Что такое контейнер?
 
 - container is user-defined  process in prepared environment
 - run in pod's context (shared pod network is the most common case)
@@ -142,7 +146,7 @@ CRUD operations on containers.
 
 .code api.pb.go.txt /START CONTAINER ADVANCED/,/END CONTAINER ADVANCED/
 
-* Streaming endpoints
+* Стриминг
 
 Kubernetes supports *exec/attach/port-forward*.
 
@@ -150,7 +154,7 @@ Using tools on the node (e.g., nsenter) is not a portable solution.
 
 CRI explicitly defines these calls in the API to allow runtime-specific implementations.
 
-* Singularity CRI Streaming
+* Стриминг в Singularity-CRI
 
 .code api.pb.go.txt /StreamingRuntime/,/^}/
 
@@ -158,13 +162,13 @@ CRI explicitly defines these calls in the API to allow runtime-specific implemen
 - attach socket is used for io streams propagation
 - control socket is used to send terminal resize events and ask for log rotation
 
-* Runtime methods
+* Прочее
 
-Simply query runtime version and status.
+Получение версии и статуса рантайма.
 
 .code api.pb.go.txt /START RUNTIME/,/END RUNTIME/
 
-* Useful links
+* Полезные ссылки
 
 .link https://github.com/sylabs/singularity Singularity
 .link https://github.com/sylabs/singularity-cri Singularity-CRI

@@ -62,14 +62,6 @@ CRI is a set of two gRPC services:
 
 - RuntimeService
 
-gRPC Service is a set of calls(methods) with defined incoming and returned messages(structs).
-
-CRI services are defined in `api.proto` file.
-
-That file is then used to generate `.go` file based on it.
-
-Generated `.go` file has *<name>ServiceClient* and *<name>ServiceServer* for each service in `api.proto`.
-
 * Known implementations
 
 - cri-containerd
@@ -94,20 +86,6 @@ Generated `.go` file has *<name>ServiceClient* and *<name>ServiceServer* for eac
 
 .image sif.png
 
-* Implementing CRI
-
-So far we know the following:
-
-- we need to work with generated `.go` file
-- that file consists of interfaces and structs
-
-To *implement* *CRI* we need to provide two types that satisfy ImageServiceServer
-and RuntimeServiceServer interfaces respectively.
-
-Combining implementation into a single type is also possible.
-
-Singularity CRI has two distinct types for each service server.
-
 * Singularity-CRI in details
 
 * ImageServiceServer interface
@@ -116,18 +94,17 @@ Singularity CRI has two distinct types for each service server.
 
 * ImageServiceServer implementation details
 
-- capable of pulling images from library/docker
-- store as SIF, verify when pulling from library
+- pull images from Singularity Cloud Library or Docker Hub
+- store as SIF, verify when pulling from Singularity Cloud Library
+- check SIF already exists before pulling
+- maintain in-memory trie for search operations
 - `registry.json` file is kept to restore state upon restarts
-- in-memory trie is used to allow convenient search
-- handles search by tags, digests
-- handles image merging and update in special cases
 
 * RuntimeServiceServer interface
 
 - prepare OCI bundles
 - prepare pod namespaces
-- keep pods and containers index
+- maintain pods and containers index
 - maintain the latest state of objects
 - serve streaming endpoints to interact with containers
 
@@ -140,8 +117,8 @@ CRUD operations on pods.
 * Pod explained
 
 - pod is a dummy process kept by the OCI engine
-- it holds IPC/NET/PID/UTS namespaces that containers will join later
-- responsible for configuring NET namespace using CNI plugins
+- holds IPC/NET/PID/UTS namespaces that containers will join later
+- configures NET namespace with CNI plugins
 - a container for containers
 - when pod is stopped/removed - inner containers are too
 - pod rootfs consists of `/proc` and `/dev` only
@@ -157,29 +134,21 @@ CRUD operations on containers.
 
 - container is user-defined  process in prepared environment
 - run in pod's context (shared pod network is the most common case)
-- rootfs is overlay fs based on SIF
+- rootfs is overlayfs based on SIF
 - logs are collected by the runtime
 - has four states: created, running, exited, unknown
 
 * Container related methods
 
-Includes advances methods.
-
 .code api.pb.go.txt /START CONTAINER ADVANCED/,/END CONTAINER ADVANCED/
 
 * Streaming endpoints
 
-Kubernetes provides features (*exec/attach/port-forward*) for users to interact with a pod and the containers in it.
+Kubernetes supports *exec/attach/port-forward*.
 
 Using tools on the node (e.g., nsenter) is not a portable solution.
 
 CRI explicitly defines these calls in the API to allow runtime-specific implementations.
-
-Singularity CRI starts a separate _streaming_ _server_ upon start.
-
-It returns the location of the streaming server to kubelet.
-
-Kubelet returns this information to the Kubernetes API server, which opens a streaming connection directly to the streaming server and connects it to the client.
 
 * Singularity CRI Streaming
 

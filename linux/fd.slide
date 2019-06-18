@@ -1,0 +1,30 @@
+Linux file descriptors
+3 Jan 2019
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Everything is a file
+
+* File descriptors table 
+
+- for each process
+- view in `/proc/PID/fd`
+- { file index, CLOEXEC flag }
+
+* Files table
+
+- system wide
+- { pos, flags, inode index }
+
+.link http://man7.org/linux/man-pages/man2/open.2.html File flags
+
+* Inodes table
+
+- system wide
+- { file type, hard links count, size, permissions, owner UID, GID, ... }
+
+* Put all together
+
+.image fd.svg 400 _

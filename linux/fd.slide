@@ -61,7 +61,7 @@ Process A, fd 1 and fd 20
 Steps:
 
     dup(1)          # it returned 20
-    dup(1, 20)      # here we asked it to be 20
+    dup2(1, 20)      # here we asked it to be 20
 
 * Two processes share file 
 

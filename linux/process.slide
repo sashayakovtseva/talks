@@ -1,0 +1,83 @@
+Linux process's memory model
+4 Jul 2019
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Program
+
+File with information about how to construct a process.
+
+Includes:
+
+- binary format identifier
+- machine code
+- starting point
+- data
+- address tables
+- dll list
+- etc
+
+* Process
+
+Running program instance.
+
+Includes:
+
+- user space memory (code + data)
+- pid, ppid
+- fd table
+- virtual memory table
+- cwd
+- signal handling
+- etc
+
+* Process's memory
+
+_Virtual_ memory is split into logical segments.
+
+- text segment/instructions (ro)
+- initialized data segment
+- uninitialized data segment
+- stack
+- heap
+
+* Example
+	#include <stdio.h>
+	#include <stdlib.h>
+
+	char globBuf[65536];			  // uninitialized data segment
+	int primes[] = { 2, 3, 5, 7 };	// initialized data segment
+	 
+	static int square(int x) {	// stack
+	  int result;				 // stack
+	  result = x * x;
+	  return result;        	  // register
+	}
+	 
+	int main(int argc, char *argv[])  {	// stack
+	  static int key = 9973;        	   // initialized data segment
+	  static char mbuf[10240000];   	   // uninitialized data segment
+	  char *p;                      	   // stack
+	  p = malloc(1024);             	   // heap
+
+	  printf("The square of %d is %d\n", key, square(key));
+	  exit(EXIT_SUCCESS);
+	}
+
+* Visual guide
+
+.image mem.png 500 _
+
+* Few words about stack
+
+SP - stack pointer
+
+Stack frame is created upon function call.
+
+Includes:
+
+- function arguments
+- local vars
+- calling func IP (instruction pointer)

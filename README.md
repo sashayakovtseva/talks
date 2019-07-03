@@ -11,5 +11,6 @@ Repository with Go talks.
 - [Depth-first search in practice](http://talks.godoc.org/github.com/sashayakovtseva/talks/dfs/dfs.slide)
 - [File finalizers in Go](http://talks.godoc.org/github.com/sashayakovtseva/talks/file-finalizer/file-finalizer.slide)
 - [Linux file descriptors](http://talks.godoc.org/github.com/sashayakovtseva/talks/linux/fd.slide)
+- [Linux process's memory model](http://talks.godoc.org/github.com/sashayakovtseva/talks/linux/process.slide)
 - Introduction to Kubernetes
 - Handle errors like Rob Pike

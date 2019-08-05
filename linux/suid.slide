@@ -53,3 +53,7 @@ suid equals to file owner's UID.
 - /bin/ps
 - /bin/passwd
 - Singularity runtime
+
+* Example
+
+.play -edit suid.go /^func main/,/^}/

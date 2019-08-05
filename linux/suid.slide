@@ -1,0 +1,55 @@
+To root or not to root
+SUID flow
+8 Aug 2019
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Process UIDs
+
+- real UID
+- effective UID
+- saved UID
+- fs UID (Linux only)
+
+* Real UID
+
+Who actually owns the process?
+
+Taken from `/etc/passwd`.
+
+* Effective UID
+
+Defines permissions (including syscalls, devices and signalling).
+
+If euid == 0 this is a superuser with all privileges.
+
+Usually uid == euid. Unless...
+
+* Saved UID
+
+Allows process to gain additional privileges.
+
+suid equals to file owner's UID.
+
+* To sum up
+
+- uid is taken from `/etc/passwd`
+- euid is set to uid
+- if file has suid bit, euid is set to file's owner uid
+- suid is set to euid
+
+* setuid
+
+.link https://linux.die.net/man/2/setuid suid man page
+
+* seteuid
+
+.link https://linux.die.net/man/2/seteuid suid man page
+
+* Use cases
+
+- /bin/ps
+- /bin/passwd
+- Singularity runtime

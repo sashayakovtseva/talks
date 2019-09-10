@@ -14,6 +14,9 @@ func init() {
 }
 
 func main() {
+	flag.Parse()
+
+	log.Printf("Listening on %s", addr)
 	err := http.ListenAndServe(addr, http.HandlerFunc(hello))
 	log.Fatalf("Server error: %v", err)
 }

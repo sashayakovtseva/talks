@@ -1,0 +1,52 @@
+Listen wisely
+12 Sept 2019
+
+Sasha Yakovtseva
+Golang developer, iTechArt
+a.yakautsava@itechart-group.com
+
+* Motivation
+
+
+Changing server address from *0.0.0.0* to *127.0.0.1* in unit tests
+led to decrease of tests running time from 17 to 5 minutes.
+
+.link https://t.me/oleg_log/1873 Original post
+
+* Explanation
+
+When a service is listening on *0.0.0.0* this means the service is
+listening on all the configured network interfaces, when listening
+on *127.0.0.1* the service is only bound to the loopback interface
+(only available on the local machine).
+
+.link https://serverfault.com/a/78049 Original post
+
+* Code example
+
+.code listen.go /^func main/,/^}/
+
+* Bind
+
+When a socket is created with socket(2), it exists in a name space
+(address family) but has no address assigned to it.  bind() assigns
+the address specified by addr to the socket referred to by the file
+descriptor sockfd.  addrlen specifies the size, in bytes, of the
+address structure pointed to by addr.  Traditionally, this operation
+is called “assigning a name to a socket”.
+
+.link http://man7.org/linux/man-pages/man2/bind.2.html man bind
+.link http://man7.org/linux/man-pages/man2/socket.2.html man socket
+
+* Bind to 127.0.0.1
+
+	strace -o single.out -f ./server --addr 127.0.0.1:8080
+
+.code single.out /socket/,/socket/
+.code single.out /bind/,/bind/
+
+* Bind to 0.0.0.0
+
+	strace -o all.out -f ./server
+
+

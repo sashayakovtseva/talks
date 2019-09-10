@@ -13,5 +13,6 @@ Repository with Go talks.
 - [Linux file descriptors](http://talks.godoc.org/github.com/sashayakovtseva/talks/linux/fd.slide)
 - [Linux process's memory model](http://talks.godoc.org/github.com/sashayakovtseva/talks/linux/process.slide)
 - [Linux suid binaries](http://talks.godoc.org/github.com/sashayakovtseva/talks/linux/suid.slide)
+- [Listen wisely](http://talks.godoc.org/github.com/sashayakovtseva/talks/net/listen.slide)
 - Introduction to Kubernetes
 - Handle errors like Rob Pike

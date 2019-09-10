@@ -99,3 +99,16 @@ Maybe this one?
 .code all.out /START SOCK3/,/END SOCK3/
 .code all.out /START FINAL/,/END FINAL/
 .code all.out /listen/
+
+* Benchmark it!
+
+	go test -bench=. -run=XXX  -benchtime 30s -cpu 1  listen_test.go listen.go
+
+No big difference though:
+
+	goos: linux
+	goarch: amd64
+	BenchmarkListenAll    	 5000000	      7893 ns/op
+	BenchmarkListenSingle 	 5000000	      7948 ns/op
+	PASS
+	ok  	command-line-arguments	165.631s

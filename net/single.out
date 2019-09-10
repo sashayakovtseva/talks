@@ -375,7 +375,8 @@
 13827 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4 <unfinished ...>
 13828 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
 13827 <... setsockopt resumed> )        = 0
-13827 bind(3, {sa_family=AF_INET, sin_port=htons(8080), sin_addr=inet_addr("127.0.0.1")}, 16 <unfinished ...>
+13827 bind(3, {sa_family=AF_INET, sin_port=htons(8080), sin_addr=inet_addr("127.0.0.1")},
+        16 <unfinished ...>
 13828 <... nanosleep resumed> NULL)     = 0
 13827 <... bind resumed> )              = 0
 13828 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>

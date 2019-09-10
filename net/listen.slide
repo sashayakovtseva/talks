@@ -37,16 +37,65 @@ is called “assigning a name to a socket”.
 
 .link http://man7.org/linux/man-pages/man2/bind.2.html man bind
 .link http://man7.org/linux/man-pages/man2/socket.2.html man socket
+.link http://man7.org/linux/man-pages/man2/listen.2.html man listen
 
 * Bind to 127.0.0.1
 
 	strace -o single.out -f ./server --addr 127.0.0.1:8080
 
+A single socket is created:
+
 .code single.out /socket/,/socket/
 .code single.out /bind/,/bind/
+.code single.out /listen/
+
+* Bind to 0.0.0.0
+
+Machine interfaces:
+
+	enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+	        inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
+	        inet6 fe80::6:ff:fe4b:33e4  prefixlen 64  scopeid 0x20<link>
+	        ether 02:06:00:4b:33:e4  txqueuelen 1000  (Ethernet)
+	        RX packets 2519024  bytes 2878304869 (2.8 GB)
+	        RX errors 0  dropped 0  overruns 0  frame 0
+	        TX packets 448510  bytes 30919546 (30.9 MB)
+	        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+	lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+	        inet 127.0.0.1  netmask 255.0.0.0
+	        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+	        loop  txqueuelen 1000  (Local Loopback)
+	        RX packets 35355  bytes 942966807 (942.9 MB)
+	        RX errors 0  dropped 0  overruns 0  frame 0
+	        TX packets 35355  bytes 942966807 (942.9 MB)
+	        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
 * Bind to 0.0.0.0
 
 	strace -o all.out -f ./server
 
+.code all.out /START SOCK0/,/END SOCK0/
 
+This one is closed right after creation, okay...
+
+* Bind to 0.0.0.0
+
+Another ones:
+
+.code all.out /START SOCK1/,/END SOCK1/
+.code all.out /START SOCK2/,/END SOCK2/
+
+* Bind to 0.0.0.0
+
+Both are closed!
+
+.code all.out /START CLOSE/,/END CLOSE/
+
+* Bind to 0.0.0.0
+
+Maybe this one?
+
+.code all.out /START SOCK3/,/END SOCK3/
+.code all.out /START FINAL/,/END FINAL/
+.code all.out /listen/

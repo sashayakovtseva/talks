@@ -329,36 +329,49 @@
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
 13820 <... write resumed> )             = 39
 13821 <... nanosleep resumed> NULL)     = 0
+// START SOCK0 OMIT
 13820 socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_TCP <unfinished ...>
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
 13820 <... socket resumed> )            = 3
 13820 close(3 <unfinished ...>
 13821 <... nanosleep resumed> NULL)     = 0
 13820 <... close resumed> )             = 0
+// END SOCK0 OMIT
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+// START SOCK1 OMIT
 13820 socket(AF_INET6, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_TCP) = 3
 13821 <... nanosleep resumed> NULL)     = 0
 13820 setsockopt(3, SOL_IPV6, IPV6_V6ONLY, [1], 4 <unfinished ...>
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
 13820 <... setsockopt resumed> )        = 0
-13820 bind(3, {sa_family=AF_INET6, sin6_port=htons(0), inet_pton(AF_INET6, "::1", &sin6_addr), sin6_flowinfo=htonl(0), sin6_scope_id=0}, 28 <unfinished ...>
+13820 bind(3, {sa_family=AF_INET6, sin6_port=htons(0),
+		inet_pton(AF_INET6, "::1", &sin6_addr),
+		sin6_flowinfo=htonl(0), sin6_scope_id=0}, 28 <unfinished ...>
 13821 <... nanosleep resumed> NULL)     = 0
 13820 <... bind resumed> )              = 0
+// END SOCK1 OMIT
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+// START SOCK2 OMIT
 13820 socket(AF_INET6, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_TCP) = 4
 13821 <... nanosleep resumed> NULL)     = 0
 13820 setsockopt(4, SOL_IPV6, IPV6_V6ONLY, [0], 4 <unfinished ...>
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
 13820 <... setsockopt resumed> )        = 0
-13820 bind(4, {sa_family=AF_INET6, sin6_port=htons(0), inet_pton(AF_INET6, "::ffff:127.0.0.1", &sin6_addr), sin6_flowinfo=htonl(0), sin6_scope_id=0}, 28 <unfinished ...>
+13820 bind(4, {sa_family=AF_INET6, sin6_port=htons(0),
+		inet_pton(AF_INET6, "::ffff:127.0.0.1", &sin6_addr),
+		sin6_flowinfo=htonl(0), sin6_scope_id=0}, 28 <unfinished ...>
 13821 <... nanosleep resumed> NULL)     = 0
 13820 <... bind resumed> )              = 0
+// END SOCK2 OMIT
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+// START CLOSE OMIT
 13820 close(4)                          = 0
 13821 <... nanosleep resumed> NULL)     = 0
 13820 close(3 <unfinished ...>
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
 13820 <... close resumed> )             = 0
+// END CLOSE OMIT
+// START SOCK3 OMIT
 13820 socket(AF_INET6, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP <unfinished ...>
 13821 <... nanosleep resumed> NULL)     = 0
 13820 <... socket resumed> )            = 3
@@ -368,6 +381,7 @@
 13820 setsockopt(3, SOL_SOCKET, SO_BROADCAST, [1], 4 <unfinished ...>
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
 13820 <... setsockopt resumed> )        = 0
+// END SOCK3 OMIT
 13820 openat(AT_FDCWD, "/proc/sys/net/core/somaxconn", O_RDONLY|O_CLOEXEC <unfinished ...>
 13821 <... nanosleep resumed> NULL)     = 0
 13820 <... openat resumed> )            = 4
@@ -400,12 +414,16 @@
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
 13820 close(4)                          = 0
 13821 <... nanosleep resumed> NULL)     = 0
+// START FINAL OMIT
 13820 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4 <unfinished ...>
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
 13820 <... setsockopt resumed> )        = 0
-13820 bind(3, {sa_family=AF_INET6, sin6_port=htons(8080), inet_pton(AF_INET6, "::", &sin6_addr), sin6_flowinfo=htonl(0), sin6_scope_id=0}, 28 <unfinished ...>
+13820 bind(3, {sa_family=AF_INET6, sin6_port=htons(8080),
+		inet_pton(AF_INET6, "::", &sin6_addr),
+		sin6_flowinfo=htonl(0), sin6_scope_id=0}, 28 <unfinished ...>
 13821 <... nanosleep resumed> NULL)     = 0
 13820 <... bind resumed> )              = 0
+// END FINAL OMIT
 13821 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
 13820 listen(3, 128)                    = 0
 13821 <... nanosleep resumed> NULL)     = 0

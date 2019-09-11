@@ -16,6 +16,7 @@ func main() {
 	flag.Parse()
 
 	log.Printf("Listening on %s", addr)
+	// ln, err := net.Listen("tcp6", addr)
 	ln, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatalf("Could not listen: %v", err)

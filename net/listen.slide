@@ -125,3 +125,14 @@ No big difference though:
 	BenchmarkListenAll    	 5000000	      8087 ns/op
 	PASS
 	ok  	command-line-arguments	167.112s
+
+* Extra syscalls
+
+Appear when using undefined protocol, i.e. general tcp.
+
+Basically Go tries to guess which concrete protocol to use here.
+
+.link https://github.com/golang/go/blob/master/src/net/ipsock_posix.go#L26 probe code
+
+* Try concrete protocol
+

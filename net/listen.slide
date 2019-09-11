@@ -24,7 +24,7 @@ on *127.0.0.1* the service is only bound to the loopback interface
 
 * Code example
 
-.code listen.go /^func main/,/^}/
+.code server.go /^func main/,/^}/
 
 * Bind
 
@@ -102,7 +102,7 @@ Maybe this one?
 
 * Benchmark it!
 
-	go test -bench=. -run=XXX  -benchtime 30s -cpu 1  listen_test.go listen.go
+	go test -bench=. -benchtime 30s -cpu 1 listen_test.go
 
 No big difference though:
 
@@ -112,3 +112,16 @@ No big difference though:
 	BenchmarkListenSingle 	 5000000	      7948 ns/op
 	PASS
 	ok  	command-line-arguments	165.631s
+
+* Benchmark it!
+
+	go test -bench=. -benchtime 30s -cpu 1 listen_test.go
+
+No big difference though:
+
+	goos: linux
+	goarch: amd64
+	BenchmarkListenSingle 	 5000000	      7786 ns/op
+	BenchmarkListenAll    	 5000000	      8087 ns/op
+	PASS
+	ok  	command-line-arguments	167.112s

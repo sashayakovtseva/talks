@@ -1,0 +1,429 @@
+28426 execve("./listen", ["./listen"], 0x7ffe21c0de68 /* 22 vars */) = 0
+28426 brk(NULL)                         = 0xb43000
+28426 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+28426 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+28426 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+28426 fstat(3, {st_mode=S_IFREG|0644, st_size=26638, ...}) = 0
+28426 mmap(NULL, 26638, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7fca2a650000
+28426 close(3)                          = 0
+28426 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+28426 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpthread.so.0", O_RDONLY|O_CLOEXEC) = 3
+28426 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0000b\0\0\0\0\0\0"..., 832) = 832
+28426 fstat(3, {st_mode=S_IFREG|0755, st_size=144976, ...}) = 0
+28426 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fca2a64e000
+28426 mmap(NULL, 2221184, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fca2a211000
+28426 mprotect(0x7fca2a22b000, 2093056, PROT_NONE) = 0
+28426 mmap(0x7fca2a42a000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x19000) = 0x7fca2a42a000
+28426 mmap(0x7fca2a42c000, 13440, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7fca2a42c000
+28426 close(3)                          = 0
+28426 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+28426 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+28426 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\260\34\2\0\0\0\0\0"..., 832) = 832
+28426 fstat(3, {st_mode=S_IFREG|0755, st_size=2030544, ...}) = 0
+28426 mmap(NULL, 4131552, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fca29e20000
+28426 mprotect(0x7fca2a007000, 2097152, PROT_NONE) = 0
+28426 mmap(0x7fca2a207000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1e7000) = 0x7fca2a207000
+28426 mmap(0x7fca2a20d000, 15072, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7fca2a20d000
+28426 close(3)                          = 0
+28426 mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fca2a64b000
+28426 arch_prctl(ARCH_SET_FS, 0x7fca2a64b740) = 0
+28426 mprotect(0x7fca2a207000, 16384, PROT_READ) = 0
+28426 mprotect(0x7fca2a42a000, 4096, PROT_READ) = 0
+28426 mprotect(0x7fca2a657000, 4096, PROT_READ) = 0
+28426 munmap(0x7fca2a650000, 26638)     = 0
+28426 set_tid_address(0x7fca2a64ba10)   = 28426
+28426 set_robust_list(0x7fca2a64ba20, 24) = 0
+28426 rt_sigaction(SIGRTMIN, {sa_handler=0x7fca2a216cb0, sa_mask=[], sa_flags=SA_RESTORER|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_1, {sa_handler=0x7fca2a216d50, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigprocmask(SIG_UNBLOCK, [RTMIN RT_1], NULL, 8) = 0
+28426 prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+28426 brk(NULL)                         = 0xb43000
+28426 brk(0xb64000)                     = 0xb64000
+28426 sched_getaffinity(0, 8192, [0, 1]) = 8
+28426 mmap(NULL, 262144, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fca2a60b000
+28426 mmap(0xc000000000, 67108864, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xc000000000
+28426 mmap(0xc000000000, 67108864, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xc000000000
+28426 mmap(NULL, 33554432, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fca27e20000
+28426 mmap(NULL, 2164736, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fca27c0f000
+28426 mmap(NULL, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fca2a5fb000
+28426 mmap(NULL, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fca2a5eb000
+28426 rt_sigprocmask(SIG_SETMASK, NULL, [], 8) = 0
+28426 sigaltstack(NULL, {ss_sp=NULL, ss_flags=SS_DISABLE, ss_size=0}) = 0
+28426 sigaltstack({ss_sp=0xc000002000, ss_flags=0, ss_size=32768}, NULL) = 0
+28426 rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+28426 gettid()                          = 28426
+28426 rt_sigaction(SIGHUP, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGHUP, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGINT, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGINT, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGQUIT, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGQUIT, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGILL, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGILL, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGTRAP, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGTRAP, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGABRT, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGABRT, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGBUS, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGBUS, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGFPE, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGFPE, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGUSR1, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGUSR1, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGSEGV, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGSEGV, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGUSR2, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGUSR2, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGPIPE, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGPIPE, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGALRM, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGALRM, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGTERM, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGTERM, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGSTKFLT, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGSTKFLT, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGCHLD, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGCHLD, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGURG, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGURG, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGXCPU, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGXCPU, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGXFSZ, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGXFSZ, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGVTALRM, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGVTALRM, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGPROF, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGPROF, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGWINCH, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGWINCH, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGIO, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGIO, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGPWR, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGPWR, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGSYS, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGSYS, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRTMIN, NULL, {sa_handler=0x7fca2a216cb0, sa_mask=[], sa_flags=SA_RESTORER|SA_SIGINFO, sa_restorer=0x7fca2a223890}, 8) = 0
+28426 rt_sigaction(SIGRTMIN, NULL, {sa_handler=0x7fca2a216cb0, sa_mask=[], sa_flags=SA_RESTORER|SA_SIGINFO, sa_restorer=0x7fca2a223890}, 8) = 0
+28426 rt_sigaction(SIGRTMIN, {sa_handler=0x7fca2a216cb0, sa_mask=[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_1, NULL, {sa_handler=0x7fca2a216d50, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, 8) = 0
+28426 rt_sigaction(SIGRT_1, NULL, {sa_handler=0x7fca2a216d50, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, 8) = 0
+28426 rt_sigaction(SIGRT_1, {sa_handler=0x7fca2a216d50, sa_mask=[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_2, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_2, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_3, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_3, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_4, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_4, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_5, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_5, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_6, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_6, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_7, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_7, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_8, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_8, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_9, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_9, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_10, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_10, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_11, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_11, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_12, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_12, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_13, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_13, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_14, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_14, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_15, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_15, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_16, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_16, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_17, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_17, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_18, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_18, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_19, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_19, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_20, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_20, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_21, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_21, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_22, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_22, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_23, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_23, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_24, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_24, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_25, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_25, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_26, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_26, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_27, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_27, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_28, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_28, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_29, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_29, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_30, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_30, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_31, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_31, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigaction(SIGRT_32, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+28426 rt_sigaction(SIGRT_32, {sa_handler=0x459040, sa_mask=~[], sa_flags=SA_RESTORER|SA_ONSTACK|SA_RESTART|SA_SIGINFO, sa_restorer=0x7fca2a223890}, NULL, 8) = 0
+28426 rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], [], 8) = 0
+28426 mmap(NULL, 8392704, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7fca2740e000
+28426 mprotect(0x7fca2740f000, 8388608, PROT_READ|PROT_WRITE) = 0
+28426 clone(child_stack=0x7fca27c0dfb0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fca27c0e9d0, tls=0x7fca27c0e700, child_tidptr=0x7fca27c0e9d0) = 28427
+28426 rt_sigprocmask(SIG_SETMASK, [],  <unfinished ...>
+28427 set_robust_list(0x7fca27c0e9e0, 24 <unfinished ...>
+28426 <... rt_sigprocmask resumed> NULL, 8) = 0
+28427 <... set_robust_list resumed> )   = 0
+28427 mmap(NULL, 134217728, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7fca1f40e000
+28427 munmap(0x7fca1f40e000, 12525568 <unfinished ...>
+28426 rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1],  <unfinished ...>
+28427 <... munmap resumed> )            = 0
+28426 <... rt_sigprocmask resumed> [], 8) = 0
+28427 munmap(0x7fca24000000, 54583296 <unfinished ...>
+28426 mmap(NULL, 8392704, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0 <unfinished ...>
+28427 <... munmap resumed> )            = 0
+28426 <... mmap resumed> )              = 0x7fca26c0d000
+28427 mprotect(0x7fca20000000, 135168, PROT_READ|PROT_WRITE <unfinished ...>
+28426 mprotect(0x7fca26c0e000, 8388608, PROT_READ|PROT_WRITE <unfinished ...>
+28427 <... mprotect resumed> )          = 0
+28426 <... mprotect resumed> )          = 0
+28427 sigaltstack(NULL,  <unfinished ...>
+28426 clone( <unfinished ...>
+28427 <... sigaltstack resumed> {ss_sp=NULL, ss_flags=SS_DISABLE, ss_size=0}) = 0
+28426 <... clone resumed> child_stack=0x7fca2740cfb0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fca2740d9d0, tls=0x7fca2740d700, child_tidptr=0x7fca2740d9d0) = 28428
+28428 set_robust_list(0x7fca2740d9e0, 24 <unfinished ...>
+28426 rt_sigprocmask(SIG_SETMASK, [],  <unfinished ...>
+28427 sigaltstack({ss_sp=0xc00004c000, ss_flags=0, ss_size=32768},  <unfinished ...>
+28426 <... rt_sigprocmask resumed> NULL, 8) = 0
+28427 <... sigaltstack resumed> NULL)   = 0
+28428 <... set_robust_list resumed> )   = 0
+28427 rt_sigprocmask(SIG_SETMASK, [],  <unfinished ...>
+28428 mmap(NULL, 134217728, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+28427 <... rt_sigprocmask resumed> NULL, 8) = 0
+28427 gettid()                          = 28427
+28428 <... mmap resumed> )              = 0x7fca18000000
+28426 rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1],  <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 <... rt_sigprocmask resumed> [], 8) = 0
+28428 munmap(0x7fca1c000000, 67108864 <unfinished ...>
+28426 mmap(NULL, 8392704, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0 <unfinished ...>
+28427 <... nanosleep resumed> NULL)     = 0
+28426 <... mmap resumed> )              = 0x7fca2640c000
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 mprotect(0x7fca2640d000, 8388608, PROT_READ|PROT_WRITE <unfinished ...>
+28428 <... munmap resumed> )            = 0
+28426 <... mprotect resumed> )          = 0
+28427 <... nanosleep resumed> NULL)     = 0
+28426 clone( <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28428 mprotect(0x7fca18000000, 135168, PROT_READ|PROT_WRITE <unfinished ...>
+28426 <... clone resumed> child_stack=0x7fca26c0bfb0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fca26c0c9d0, tls=0x7fca26c0c700, child_tidptr=0x7fca26c0c9d0) = 28429
+28429 set_robust_list(0x7fca26c0c9e0, 24 <unfinished ...>
+28426 rt_sigprocmask(SIG_SETMASK, [],  <unfinished ...>
+28429 <... set_robust_list resumed> )   = 0
+28426 <... rt_sigprocmask resumed> NULL, 8) = 0
+28429 mmap(0x7fca1c000000, 67108864, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+28427 <... nanosleep resumed> NULL)     = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 futex(0x6199e8, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+28429 <... mmap resumed> )              = 0x7fca1c000000
+28428 <... mprotect resumed> )          = 0
+28429 mprotect(0x7fca1c000000, 135168, PROT_READ|PROT_WRITE <unfinished ...>
+28427 <... nanosleep resumed> NULL)     = 0
+28429 <... mprotect resumed> )          = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28429 sigaltstack(NULL, {ss_sp=NULL, ss_flags=SS_DISABLE, ss_size=0}) = 0
+28427 <... nanosleep resumed> NULL)     = 0
+28429 sigaltstack({ss_sp=0xc000062000, ss_flags=0, ss_size=32768},  <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28429 <... sigaltstack resumed> NULL)   = 0
+28428 sigaltstack(NULL,  <unfinished ...>
+28429 rt_sigprocmask(SIG_SETMASK, [],  <unfinished ...>
+28427 <... nanosleep resumed> NULL)     = 0
+28429 <... rt_sigprocmask resumed> NULL, 8) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28429 gettid( <unfinished ...>
+28428 <... sigaltstack resumed> {ss_sp=NULL, ss_flags=SS_DISABLE, ss_size=0}) = 0
+28429 <... gettid resumed> )            = 28429
+28427 <... nanosleep resumed> NULL)     = 0
+28428 sigaltstack({ss_sp=0xc000054000, ss_flags=0, ss_size=32768},  <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28428 <... sigaltstack resumed> NULL)   = 0
+28429 futex(0x6199e8, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+28428 rt_sigprocmask(SIG_SETMASK, [],  <unfinished ...>
+28426 <... futex resumed> )             = 0
+28429 <... futex resumed> )             = 1
+28428 <... rt_sigprocmask resumed> NULL, 8) = 0
+28429 futex(0xc00003abc8, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+28427 <... nanosleep resumed> NULL)     = 0
+28428 gettid( <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28428 <... gettid resumed> )            = 28428
+28428 futex(0xc00003a848, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+28427 <... nanosleep resumed> NULL)     = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28426 rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1],  <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 <... rt_sigprocmask resumed> [], 8) = 0
+28426 mmap(NULL, 8392704, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0 <unfinished ...>
+28427 <... nanosleep resumed> NULL)     = 0
+28426 <... mmap resumed> )              = 0x7fca25c0b000
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 mprotect(0x7fca25c0c000, 8388608, PROT_READ|PROT_WRITE) = 0
+28427 <... nanosleep resumed> NULL)     = 0
+28426 clone( <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28430 set_robust_list(0x7fca2640b9e0, 24 <unfinished ...>
+28426 <... clone resumed> child_stack=0x7fca2640afb0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fca2640b9d0, tls=0x7fca2640b700, child_tidptr=0x7fca2640b9d0) = 28430
+28427 <... nanosleep resumed> NULL)     = 0
+28426 rt_sigprocmask(SIG_SETMASK, [],  <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 <... rt_sigprocmask resumed> NULL, 8) = 0
+28430 <... set_robust_list resumed> )   = 0
+28430 mmap(NULL, 134217728, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+28427 <... nanosleep resumed> NULL)     = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28430 <... mmap resumed> )              = 0x7fca10000000
+28427 <... nanosleep resumed> NULL)     = 0
+28430 munmap(0x7fca14000000, 67108864 <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28430 <... munmap resumed> )            = 0
+28427 <... nanosleep resumed> NULL)     = 0
+28430 mprotect(0x7fca10000000, 135168, PROT_READ|PROT_WRITE <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28430 <... mprotect resumed> )          = 0
+28427 <... nanosleep resumed> NULL)     = 0
+28430 sigaltstack(NULL,  <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28430 <... sigaltstack resumed> {ss_sp=NULL, ss_flags=SS_DISABLE, ss_size=0}) = 0
+28430 sigaltstack({ss_sp=0xc00006c000, ss_flags=0, ss_size=32768},  <unfinished ...>
+28427 <... nanosleep resumed> NULL)     = 0
+28430 <... sigaltstack resumed> NULL)   = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28430 rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+28427 <... nanosleep resumed> NULL)     = 0
+28430 gettid( <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28430 <... gettid resumed> )            = 28430
+28427 <... nanosleep resumed> NULL)     = 0
+28430 futex(0x634518, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 futex(0xc00003a848, FUTEX_WAKE_PRIVATE, 1) = 1
+28428 <... futex resumed> )             = 0
+28426 futex(0x6199e8, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+28428 futex(0x6199e8, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+28426 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+28428 <... futex resumed> )             = 0
+28428 futex(0xc00003a848, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+28427 <... nanosleep resumed> NULL)     = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 readlinkat(AT_FDCWD, "/proc/self/exe", "/home/vagrant/go/src/github.com/"..., 128) = 64
+28427 <... nanosleep resumed> NULL)     = 0
+28426 fcntl(0, F_GETFL <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 <... fcntl resumed> )             = 0x2 (flags O_RDWR)
+28427 <... nanosleep resumed> NULL)     = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 futex(0xc00003a848, FUTEX_WAKE_PRIVATE, 1) = 1
+28428 <... futex resumed> )             = 0
+28426 mmap(NULL, 262144, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0 <unfinished ...>
+28428 nanosleep({tv_sec=0, tv_nsec=3000},  <unfinished ...>
+28426 <... mmap resumed> )              = 0x7fca2a5ab000
+28427 <... nanosleep resumed> NULL)     = 0
+28426 fcntl(1, F_GETFL <unfinished ...>
+28428 <... nanosleep resumed> NULL)     = 0
+28426 <... fcntl resumed> )             = 0x2 (flags O_RDWR)
+28428 futex(0xc00003a848, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+28426 fcntl(2, F_GETFL <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=20000},  <unfinished ...>
+28426 <... fcntl resumed> )             = 0x2 (flags O_RDWR)
+28427 <... nanosleep resumed> NULL)     = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=20000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=40000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=80000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=160000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=320000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=640000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=1280000}, NULL) = 0
+28427 nanosleep({tv_sec=0, tv_nsec=2560000},  <unfinished ...>
+28426 openat(AT_FDCWD, "/etc//localtime", O_RDONLY) = 3
+28426 read(3, "TZif2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\1\0\0\0\1\0\0\0\0"..., 4096) = 127
+28426 read(3, "", 4096)                 = 0
+28426 close(3)                          = 0
+28426 write(2, "2019/09/11 09:37:58 Listening on"..., 39) = 39
+28427 <... nanosleep resumed> NULL)     = 0
+28427 nanosleep({tv_sec=0, tv_nsec=5120000},  <unfinished ...>
+28426 socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_TCP) = 3
+28426 close(3)                          = 0
+28426 socket(AF_INET6, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_TCP) = 3
+28426 setsockopt(3, SOL_IPV6, IPV6_V6ONLY, [1], 4) = 0
+28426 bind(3, {sa_family=AF_INET6, sin6_port=htons(0), inet_pton(AF_INET6, "::1", &sin6_addr), sin6_flowinfo=htonl(0), sin6_scope_id=0}, 28) = 0
+28426 socket(AF_INET6, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_TCP) = 4
+28426 setsockopt(4, SOL_IPV6, IPV6_V6ONLY, [0], 4) = 0
+28426 bind(4, {sa_family=AF_INET6, sin6_port=htons(0), inet_pton(AF_INET6, "::ffff:127.0.0.1", &sin6_addr), sin6_flowinfo=htonl(0), sin6_scope_id=0}, 28) = 0
+28426 close(4)                          = 0
+28426 close(3)                          = 0
+28426 socket(AF_INET6, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 3
+28426 setsockopt(3, SOL_IPV6, IPV6_V6ONLY, [0], 4) = 0
+28426 setsockopt(3, SOL_SOCKET, SO_BROADCAST, [1], 4) = 0
+28426 openat(AT_FDCWD, "/proc/sys/net/core/somaxconn", O_RDONLY|O_CLOEXEC) = 4
+28426 epoll_create1(EPOLL_CLOEXEC)      = 5
+28426 epoll_ctl(5, EPOLL_CTL_ADD, 4, {EPOLLIN|EPOLLOUT|EPOLLRDHUP|EPOLLET, {u32=710606600, u64=140506270727944}}) = 0
+28427 <... nanosleep resumed> NULL)     = 0
+28426 fcntl(4, F_GETFL <unfinished ...>
+28427 epoll_pwait(5,  <unfinished ...>
+28426 <... fcntl resumed> )             = 0x8000 (flags O_RDONLY|O_LARGEFILE)
+28427 <... epoll_pwait resumed> [{EPOLLIN|EPOLLOUT, {u32=710606600, u64=140506270727944}}], 128, 0, NULL, 95913579493711) = 1
+28426 fcntl(4, F_SETFL, O_RDONLY|O_NONBLOCK|O_LARGEFILE <unfinished ...>
+28427 nanosleep({tv_sec=0, tv_nsec=10000000},  <unfinished ...>
+28426 <... fcntl resumed> )             = 0
+28426 read(4, "128\n", 65536)           = 4
+28426 read(4, "", 65532)                = 0
+28426 epoll_ctl(5, EPOLL_CTL_DEL, 4, 0xc000093a64) = 0
+28426 close(4)                          = 0
+28426 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
+28426 bind(3, {sa_family=AF_INET6, sin6_port=htons(8080), inet_pton(AF_INET6, "::", &sin6_addr), sin6_flowinfo=htonl(0), sin6_scope_id=0}, 28) = 0
+28426 listen(3, 128)                    = 0
+28426 epoll_ctl(5, EPOLL_CTL_ADD, 3, {EPOLLIN|EPOLLOUT|EPOLLRDHUP|EPOLLET, {u32=710606600, u64=140506270727944}}) = 0
+28426 getsockname(3, {sa_family=AF_INET6, sin6_port=htons(8080), inet_pton(AF_INET6, "::", &sin6_addr), sin6_flowinfo=htonl(0), sin6_scope_id=0}, [112->28]) = 0
+28426 epoll_ctl(5, EPOLL_CTL_DEL, 3, 0xc000093dec) = 0
+28426 close(3)                          = 0
+28426 exit_group(0)                     = ?
+28430 <... futex resumed>)              = ?
+28430 +++ exited with 0 +++
+28429 <... futex resumed>)              = ?
+28428 <... futex resumed>)              = ?
+28429 +++ exited with 0 +++
+28428 +++ exited with 0 +++
+28427 <... nanosleep resumed> <unfinished ...>) = ?
+28427 +++ exited with 0 +++
+28426 +++ exited with 0 +++

@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func BenchmarkListenAll(b *testing.B) {
-	addr := ":8080"
+func BenchmarkListenSingle(b *testing.B) {
+	addr := "127.0.0.1:8080"
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		b.StartTimer()
@@ -19,8 +19,8 @@ func BenchmarkListenAll(b *testing.B) {
 	}
 }
 
-func BenchmarkListenSingle(b *testing.B) {
-	addr := "127.0.0.1:8080"
+func BenchmarkListenAll(b *testing.B) {
+	addr := ":8080"
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		b.StartTimer()

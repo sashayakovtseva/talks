@@ -1,23 +1,22 @@
 Listen wisely
-12 Sept 2019
+19 Sept 2019
 
 Sasha Yakovtseva
 Golang developer, iTechArt
 a.yakautsava@itechart-group.com
 
-* Motivation
-
+* Reason of this talk
 
 Changing server address from *0.0.0.0* to *127.0.0.1* in unit tests
-led to decrease of tests running time from 17 to 5 minutes.
+led to test run time decrease from 17 to 5 minutes.
 
 .link https://t.me/oleg_log/1873 Original post
 
 * Explanation
 
-When a service is listening on *0.0.0.0* this means the service is
+When a service is listening on *0.0.0.0* it means the service is
 listening on all the configured network interfaces, when listening
-on *127.0.0.1* the service is only bound to the loopback interface
+on *127.0.0.1* means the service is only bound to the loopback interface
 (only available on the local machine).
 
 .link https://serverfault.com/a/78049 Original post
@@ -81,24 +80,47 @@ This one is closed right after creation, okay...
 
 * Bind to 0.0.0.0
 
-Another ones:
-
 .code all.out /START SOCK1/,/END SOCK1/
 .code all.out /START SOCK2/,/END SOCK2/
 
 * Bind to 0.0.0.0
 
-Both are closed!
-
 .code all.out /START CLOSE/,/END CLOSE/
 
-* Bind to 0.0.0.0
+Both are closed!
 
-Maybe this one?
+* Bind to 0.0.0.0
 
 .code all.out /START SOCK3/,/END SOCK3/
 .code all.out /START FINAL/,/END FINAL/
 .code all.out /listen/
+
+Finally!
+
+* Benchmark it!
+
+Well, we can't benchmark `ListenAndServe`, but we can
+benchmark `Listen`.
+
+	func (srv *Server) ListenAndServe() error {
+		if srv.shuttingDown() {
+			return ErrServerClosed
+		}
+		addr := srv.Addr
+		if addr == "" {
+			addr = ":http"
+		}
+		ln, err := net.Listen("tcp", addr)
+		if err != nil {
+			return err
+		}
+		return srv.Serve(tcpKeepAliveListener{ln.(*net.TCPListener)})
+	}
+
+
+* Benchmark it!
+
+.code dummy_test.go /BenchmarkDummyListen/,/^}/
 
 * Benchmark it!
 
@@ -115,24 +137,70 @@ No big difference though:
 
 * Benchmark it!
 
-	go test -bench=. -benchtime 30s -cpu 1 listen_test.go
+	go test -bench=. -benchtime 30s -cpu 1 dummy_test.go
 
 No big difference though:
 
 	goos: linux
 	goarch: amd64
-	BenchmarkListenSingle 	 5000000	      7786 ns/op
-	BenchmarkListenAll    	 5000000	      8087 ns/op
+	BenchmarkDummyListen/127.0.0.1:8080         	 5000000	     11045 ns/op
+	BenchmarkDummyListen/:8080                  	 5000000	     10781 ns/op
 	PASS
-	ok  	command-line-arguments	167.112s
+	ok  	command-line-arguments	128.941s
 
-* Extra syscalls
+* Explanation
 
-Appear when using undefined protocol, i.e. general tcp.
+Extra syscalls appear when using undefined protocol, i.e. general `tcp`.
 
 Basically Go tries to guess which concrete protocol to use here.
 
 .link https://github.com/golang/go/blob/master/src/net/ipsock_posix.go#L26 probe code
 
-* Try concrete protocol
+* Bench concrete protocol
 
+.code listen_test.go /START/,/END/
+
+* Bench concrete protocol
+
+    go test -bench=. -benchtime 30s -cpu 1 listen_test.go
+
+	goos: linux
+	goarch: amd64
+	BenchmarkListen/tcp/127.0.0.1:8080         	 5000000	      8835 ns/op
+	BenchmarkListen/tcp/:8080                  	 5000000	      8872 ns/op
+	BenchmarkListen/tcp4/127.0.0.1:8080        	 5000000	      8602 ns/op
+	BenchmarkListen/tcp4/:8080                 	 5000000	      8167 ns/op
+	BenchmarkListen/tcp6/[::1]:8080            	 5000000	      9169 ns/op
+	BenchmarkListen/tcp6/:8080                 	 5000000	      8805 ns/op
+	PASS
+	ok  	command-line-arguments	315.205s
+
+* Bench request/response
+
+.code serve_test.go /START1/,/END1/
+.code serve_test.go /START2/,/END2/
+
+* Bench request/response
+
+	go test -bench=. -benchtime 30s -cpu 1 serve_test.go
+
+	goos: linux
+	goarch: amd64
+	BenchmarkServe/tcp/127.0.0.1:8080         	  300000	    126136 ns/op
+	BenchmarkServe/tcp/:8080                  	  300000	    127400 ns/op
+	BenchmarkServe/tcp4/127.0.0.1:8080        	  300000	    126261 ns/op
+	BenchmarkServe/tcp4/:8080                 	  300000	    127149 ns/op
+	BenchmarkServe/tcp6/[::1]:8080            	  300000	    130976 ns/op
+	BenchmarkServe/tcp6/[::]:8080             	  300000	    136777 ns/op
+	PASS
+	ok  	command-line-arguments	246.483s
+
+* Conclusion
+
+For Go it doesn't really matter.
+
+Or my tests are wrong.
+
+¯\_(ツ)_/¯
+
+P.S. Original issue is found in Java, maybe that is the reason?

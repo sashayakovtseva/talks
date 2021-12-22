@@ -1,0 +1,97 @@
+Как команда RTB использует hashicorp стек
+24 дек 2021
+
+Саша Яковцева
+RTB TechLead, LuckyGroup
+a.yakovtseva@lucky-team.pro
+https://t.me/sashayakovtseva
+
+* О чем расскажу?
+
+- consul
+- vault
+- nomad
+- базовые примеры
+
+* Как было в начале
+
+- отдельный репозиторий с ansible
+- для деплоя git clone & ansible-playbook *каждый* *раз*
+
+Плюсы:
+- полный контроль над происходящим
+
+Минусы:
+- всегда фиксированные порты
+- неудобно хранить sensitive данные
+- нельзя запустить больше одного инстанса на хосте
+- нет rolling update
+- любые изменения топологии нужно разруливать руками
+- и много других...
+
+: sensitive - можно использовать ansible vault, но насколько это удобно?
+: если хост падает, то контейнер не поднимется на другом хосте
+: при изменении топологии хостов нужно руками переносит все контейнеры
+: ручная интеграция с консулом
+
+* Consul
+
+.image consul-color.png _ 500
+
+- service discovery для сервисов
+- health monitor для сервисов
+- k/v хранилище
+
+: в service discovery можно указать любые теги и по ним ориентироваться (staging, prod, leader, etc)
+: на k/v построили leader election
+: тут нужно запустить консул `consul agent -dev` и показать ui
+: http://localhost:8500
+
+* Vault
+
+.image vault-logo.png _ 500
+
+- хранилище секретов
+- хранит данные в зашифрованном виде
+
+: тут нужно запустить волт `vault server -dev -dev-no-store-token -dev-root-token-id=root` и показать ui
+: http://localhost:8200
+: показать движки, рассказать, что у нас только k/v, но есть и другие
+: например, storage engine https://www.vaultproject.io/docs/secrets/databases
+
+* Nomad
+
+.image nomad-logo.png _ 500
+
+- оркестратор контейнеров
+- запускает контейнеры на подходящих нодах
+- следит за их здоровьем, рестартует, перемещает и тд
+- позволяет выкатывать blue/green & rolling update
+- интегрируется с consul & vault. сам регистрирует сервисы, прокидывает k/v и секреты
+
+: про каждый пункт дальше на примере
+: на подходящих нодах - тут про constraints, label, affinity и тд дальше в примере
+: тут запустить номад: nomad agent -dev --consul-address=127.0.0.1:8500 -vault-enabled -vault-address=http://127.0.0.1:8200 -vault-token=root
+: http://localhost:4646
+
+* Nomad
+
+Job example
+
+.link https://github.com/sashayakovtseva/hello-web/blob/v0.2.0/deployments/nomad/hello.hcl hello.hcl
+
+: нужно создать reader policy в волт `{path "secret/*" {capabilities = ["read"]}}`
+: задеплоить джобу и показать консул и волт: nomad job run ./deployments/nomad/hello.hcl
+: показать, что без данных не поднимается. добавить и посмотреть, что поднялось
+: потыкать curl http://localhost:port/hello/sasha
+: поменять ключ в консуле
+: поменять ключ в волт
+: обновить CPU, показать канарейку
+: сделать nomad scale up/down: nomad job scale hello 2
+
+* Полезные ссылки
+
+.link https://learn.hashicorp.com/tutorials/consul/application-leader-elections leader election
+.link https://github.com/sashayakovtseva/grpc-consul-resolver consul-resolver
+.link https://learn.hashicorp.com/tutorials/nomad/production-reference-architecture-vm-with-consul nomad architecture
+.link https://github.com/hashicorp/levant nomad levant

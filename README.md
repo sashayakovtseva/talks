@@ -16,3 +16,4 @@ Repository with Go talks.
 - [Listen wisely](http://talks.godoc.org/github.com/sashayakovtseva/talks/net/listen.slide)
 - Introduction to Kubernetes
 - Handle errors like Rob Pike
+- [How to use Hashicorp stack (RU)](http://talks.godoc.org/github.com/sashayakovtseva/talks/hashicorp/hashicorp.slide)
